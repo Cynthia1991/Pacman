@@ -1,5 +1,6 @@
 package pacman372.dementiaaid;
 
+<<<<<<< HEAD
 import android.graphics.Color;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
@@ -26,13 +27,29 @@ public class MapsActivity extends FragmentActivity {
     EditText radiusEdit;
 
     CircularFence circularFence;
+=======
+import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class MapsActivity extends FragmentActivity {
+
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+>>>>>>> origin/master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+<<<<<<< HEAD
         radiusEdit = (EditText)findViewById(R.id.editRadius);
         locationHelper = new LocationHelper(this);
+=======
+>>>>>>> origin/master
         setUpMapIfNeeded();
     }
 
@@ -77,6 +94,7 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+<<<<<<< HEAD
         circularFence = new CircularFence(mMap);
 
         LatLng mapLocation = determineMapLocation();
@@ -123,5 +141,8 @@ public class MapsActivity extends FragmentActivity {
             mapLocation = new LatLng(mostRecentLastKnownLocation.getLatitude(), mostRecentLastKnownLocation.getLongitude());
         }
         return mapLocation;
+=======
+        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+>>>>>>> origin/master
     }
 }
