@@ -1,25 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
-<<<<<<< HEAD
     signingConfigs {
         release {
             keyAlias 'dementiaaid'
-            keyPassword 'password'
-            storeFile file('C:/Users/Ramona/Documents/GitHub/Pacman/dementiaaid.jks')
-            storePassword 'password'
+            keyPassword 'inn372'
+            storeFile file('C:/Users/Ramona/Documents/Pacman/pacman.jks')
+            storePassword 'inn372'
         }
     }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-=======
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
-
->>>>>>> origin/master
     defaultConfig {
         applicationId "pacman372.dementiaaid"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -28,24 +22,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-<<<<<<< HEAD
             signingConfig signingConfigs.release
-=======
->>>>>>> origin/master
         }
     }
 }
 
 dependencies {
-<<<<<<< HEAD
     compile fileTree(include: ['*.jar'], dir: 'libs')
     wearApp project(':wear')
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.google.android.gms:play-services:6.5.87'
-=======
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    wearApp project(':wear')
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.google.android.gms:play-services:7.8.0'
->>>>>>> origin/master
+    compile 'com.google.maps.android:android-maps-utils:0.3.4'
 }

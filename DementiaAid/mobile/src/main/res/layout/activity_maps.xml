@@ -1,42 +1,27 @@
-<<<<<<< HEAD
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/radiusLayout">
-
+    android:layout_width="fill_parent"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
     <TextView
-        android:text="Radius"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/lableRadius" />
-
-    <EditText
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editRadius"
-        android:layout_gravity="center_horizontal" />
-    </LinearLayout>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Radius"
+        android:id="@+id/radiusLabel" />
+
+    <SeekBar
+        android:id="@+id/radiusSlider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:max="500" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="453dp" android:id="@+id/map" tools:context=".MapsActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    tools:layout="@layout/abc_screen_simple" />
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        tools:layout="@layout/abc_screen_simple" />
 
 
 </LinearLayout>
-=======
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapsActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
->>>>>>> origin/master

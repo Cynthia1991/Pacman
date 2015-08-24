@@ -1,56 +1,50 @@
 package pacman372.dementiaaid;
 
-<<<<<<< HEAD
-import android.graphics.Color;
-import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
+import android.widget.SeekBar;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-
-public class MapsActivity extends FragmentActivity {
-
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    LocationHelper locationHelper;
-    EditText radiusEdit;
-
-    CircularFence circularFence;
-=======
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
->>>>>>> origin/master
-
+    private FenceView viewModel;
+    private SeekBar radiusSlider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-<<<<<<< HEAD
-        radiusEdit = (EditText)findViewById(R.id.editRadius);
-        locationHelper = new LocationHelper(this);
-=======
->>>>>>> origin/master
+        viewModel = new FenceView();
+
         setUpMapIfNeeded();
+        radiusSlider = (SeekBar)findViewById(R.id.radiusSlider);
+        radiusSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    viewModel.radiusChanged(progress);
+                    syncFromModel();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        syncFromModel();
     }
 
     @Override
@@ -94,55 +88,39 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-<<<<<<< HEAD
-        circularFence = new CircularFence(mMap);
-
-        LatLng mapLocation = determineMapLocation();
-        CameraUpdate cameraAtCurrentLocation =
-                CameraUpdateFactory.newLatLng(mapLocation);
-
-        mMap.moveCamera(cameraAtCurrentLocation);
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-        mMap.animateCamera(zoom);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                circularFence.SetCenter(latLng);
-            }
-        });
-
-
-        radiusEdit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String radiusText = s.toString();
-                if (radiusText.isEmpty()) return;
-                double r = Double.parseDouble(radiusText);
-
-                circularFence.SetRadius(r);
+                viewModel.mapClicked(latLng);
+                syncFromModel();
             }
         });
     }
 
-    private LatLng determineMapLocation() {
-        LatLng mapLocation = new LatLng(-27.4667, 153.0333);
-        Location mostRecentLastKnownLocation = locationHelper.getMostRecentLastKnownLocation();
-        if (mostRecentLastKnownLocation != null) {
-            mapLocation = new LatLng(mostRecentLastKnownLocation.getLatitude(), mostRecentLastKnownLocation.getLongitude());
+    private void syncFromModel() {
+        mMap.clear();
+        MarkerOptions markerOptions = viewModel.getCenterOptions();
+        if (markerOptions != null) {
+            mMap.addMarker(markerOptions);
         }
-        return mapLocation;
-=======
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
->>>>>>> origin/master
+
+        CircleOptions circleOptions = viewModel.getPerimeterOptions();
+        if (circleOptions != null) {
+            mMap.addCircle(circleOptions);
+        }
+
+        LatLng cameraLocation = viewModel.getCameraLocation();
+        if (!mMap.getProjection().getVisibleRegion().latLngBounds.contains(cameraLocation)) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(cameraLocation));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        }
+        boolean radiusEnabled = viewModel.canChangeRadius();
+        radiusSlider.setEnabled(radiusEnabled);
+        if (radiusEnabled) {
+            radiusSlider.setProgress(viewModel.fence.radius);
+        }
+
     }
+
+
 }
