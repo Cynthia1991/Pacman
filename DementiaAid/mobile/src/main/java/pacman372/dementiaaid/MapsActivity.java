@@ -5,22 +5,49 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-
+    private FenceView viewModel;
+    private SeekBar radiusSlider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
+        viewModel = new FenceView();
 
+        setUpMapIfNeeded();
+        radiusSlider = (SeekBar)findViewById(R.id.radiusSlider);
+        radiusSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    viewModel.radiusChanged(progress);
+                    syncFromModel();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        syncFromModel();
     }
 
     @Override
@@ -64,6 +91,39 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                viewModel.mapClicked(latLng);
+                syncFromModel();
+            }
+        });
     }
+
+    private void syncFromModel() {
+        mMap.clear();
+        MarkerOptions markerOptions = viewModel.getCenterOptions();
+        if (markerOptions != null) {
+            mMap.addMarker(markerOptions);
+        }
+
+        CircleOptions circleOptions = viewModel.getPerimeterOptions();
+        if (circleOptions != null) {
+            mMap.addCircle(circleOptions);
+        }
+
+        LatLng cameraLocation = viewModel.getCameraLocation();
+        if (!mMap.getProjection().getVisibleRegion().latLngBounds.contains(cameraLocation)) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(cameraLocation));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        }
+        boolean radiusEnabled = viewModel.canChangeRadius();
+        radiusSlider.setEnabled(radiusEnabled);
+        if (radiusEnabled) {
+            radiusSlider.setProgress(viewModel.fence.radius);
+        }
+
+    }
+
+
 }
