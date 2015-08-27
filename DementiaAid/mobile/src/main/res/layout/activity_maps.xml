@@ -4,6 +4,16 @@
     android:layout_width="fill_parent"
     android:layout_margin="10dp"
     android:layout_height="wrap_content">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/test_popup_button"
+        android:layout_gravity="right"
+        android:layout_marginTop="0dp"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -46,7 +46,21 @@ public class MapsActivity extends FragmentActivity {
 
             }
         });
+         /* test*/
+        //super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_maps);
+        Button test_popup_button=(Button) findViewById(R.id.test_popup_button);
+        test_popup_button.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View v) {
+                                                     startActivity(new Intent(MapsActivity.this, Pop.class));
 
+                                                 }
+
+                                             }
+
+        );
+        /*test_end*/
         syncFromModel();
     }
 
