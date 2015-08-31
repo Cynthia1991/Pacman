@@ -5,8 +5,8 @@ package pacman372.dementiaaid;
  */
 public class Location {
     public String id;
-    public Float coordinateX;
-    public Float coordinateY;
+    public double coordinateX;
+    public double coordinateY;
     public String id_Patient;
     public String id_Carer;
 }

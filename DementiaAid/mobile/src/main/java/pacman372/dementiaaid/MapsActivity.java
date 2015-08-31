@@ -31,6 +31,8 @@ public class MapsActivity extends AppCompatActivity {
     private FenceView viewModel;
     private SeekBar radiusSlider;
     private AlertDialog.Builder alertDialog;
+    private CircularFence currentFence;
+    private Location newCenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,8 @@ public class MapsActivity extends AppCompatActivity {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         viewModel = new FenceView();
-
+        currentFence = new CircularFence();
+        newCenter = new Location();
         setUpMapIfNeeded();
         radiusSlider = (SeekBar)findViewById(R.id.radiusSlider);
         radiusSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -150,6 +153,10 @@ public class MapsActivity extends AppCompatActivity {
         if (radiusEnabled) {
             radiusSlider.setProgress(viewModel.fence.radius);
         }
+        if((null != currentFence)&&(null != viewModel.fence)){
+        currentFence.setRadius(viewModel.fence.radius);
+        currentFence.setCenter(viewModel.fence.center);
+        }
 
     }
     /** Called when the user clicks the Send button */
@@ -159,6 +166,10 @@ public class MapsActivity extends AppCompatActivity {
         String message = "123";
         intent.putExtra(EXTRA_MESSAGE,message);
         startActivity(intent);*/
+        if(null != currentFence){
+            uploadLocation(currentFence.center);
+
+        }
         alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Done ...");
         alertDialog.setMessage("Call set fence");
@@ -185,7 +196,56 @@ public class MapsActivity extends AppCompatActivity {
         }
         return true;
     }
-    public void creatNewFence(){
+    public void uploadLocation(LatLng center){
+        try {
+            mClient = new MobileServiceClient(
+                    "https://pacmanandroid.azure-mobile.net/",
+                    "mpVjGDJAoCHcrHsuWkxJGTvjwBDZMk90",
+                    this
+            );
+
+
+            newCenter.coordinateX = currentFence.getCoordinateX();
+            newCenter.coordinateY = currentFence.getCoordinateY();
+
+            alertDialog = new AlertDialog.Builder(this);
+            mClient.getTable(Location.class).insert(newCenter, new TableOperationCallback<Location>() {
+                public void onCompleted(Location entity, Exception exception, ServiceFilterResponse response) {
+                    if (exception == null) {
+                        // Insert succeeded
+                        newCenter.id = entity.id;
+                        Fence newFence = new Fence();
+
+                        newFence.id_Location = newCenter.id;
+                        newFence.redius = currentFence.getRadius();
+                        creatNewFence(newFence);
+
+                        /*alertDialog.setTitle("success...");
+                        alertDialog.setMessage("Insert Location succeeded!");
+
+                        alertDialog.show();*/
+                        //return entity.id;
+
+                    } else {
+                        // Insert failed
+                        newCenter.id = "Failed";
+                        alertDialog.setTitle("Failed...");
+                        alertDialog.setMessage("Insert Location failed!");
+                        alertDialog.show();
+                        //return entity.id;
+
+                    }
+                }
+            });
+        }catch (MalformedURLException e) {
+
+            //createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
+        } catch (Exception e) {
+            //createAndShowDialog(e, "Error");
+        }
+    }
+
+    public void creatNewFence(Fence newFence){
 
         try {
             mClient = new MobileServiceClient(
@@ -193,34 +253,23 @@ public class MapsActivity extends AppCompatActivity {
                     "mpVjGDJAoCHcrHsuWkxJGTvjwBDZMk90",
                     this
             );
-            Patient patient = new Patient();
-            patient.name = "Cynthia_P";
-            patient.phone = "0424112714";
             alertDialog = new AlertDialog.Builder(this);
-            mClient.getTable(Patient.class).insert(patient, new TableOperationCallback<Patient>() {
-                public void onCompleted(Patient entity, Exception exception, ServiceFilterResponse response) {
+            newFence.description = "123";
+            newFence.id_care = "123";
+            newFence.id_patient = "123";
+            mClient.getTable(Fence.class).insert(newFence, new TableOperationCallback<Fence>() {
+                public void onCompleted(Fence entity, Exception exception, ServiceFilterResponse response) {
                     if (exception == null) {
                         // Insert succeeded
 
                         alertDialog.setTitle("success...");
-                        alertDialog.setMessage("Insert succeeded!");
-
-                        /*alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-                                //EditText et = (EditText)alertDialogView.findViewById(R.id.EditText1);
-
-
-                                //Toast.makeText(Tutoriel18_Android.this, et.getText(), Toast.LENGTH_SHORT).show();
-                            } });*/
-                        //alertDialog.setIcon(R.drawable.icon);
+                        alertDialog.setMessage("Insert Fence succeeded!");
                         alertDialog.show();
 
                     } else {
                         // Insert failed
                         alertDialog.setTitle("Failed...");
-                        alertDialog.setMessage("Insert failed!");
+                        alertDialog.setMessage("Insert Fence failed!");
                         alertDialog.show();
 
                     }

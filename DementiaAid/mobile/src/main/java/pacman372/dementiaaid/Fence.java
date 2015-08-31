@@ -6,8 +6,8 @@ package pacman372.dementiaaid;
 public class Fence {
     public String id;
     public String id_Location;
-    public float redius;
+    public double radius;
     public String description;
-    public String id_care;
+    public String id_carer;
     public String id_patient;
 }

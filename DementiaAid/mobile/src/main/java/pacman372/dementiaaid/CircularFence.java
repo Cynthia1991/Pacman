@@ -18,4 +18,21 @@ public class CircularFence {
     public void setCenter(LatLng center) {
         this.center = center;
     }
+
+    public int getRadius() {
+
+        return this.radius;
+
+    }
+    public double getCoordinateX() {
+
+        return this.center.latitude;
+
+    }
+    public double getCoordinateY() {
+
+        return this.center.longitude;
+
+    }
+
 }
