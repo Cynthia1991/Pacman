@@ -170,10 +170,10 @@ public class MapsActivity extends AppCompatActivity {
             uploadLocation(currentFence.center);
 
         }
-        alertDialog = new AlertDialog.Builder(this);
+        /*alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Done ...");
         alertDialog.setMessage("Call set fence");
-        alertDialog.show();
+        alertDialog.show();*/
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -207,7 +207,8 @@ public class MapsActivity extends AppCompatActivity {
 
             newCenter.coordinateX = currentFence.getCoordinateX();
             newCenter.coordinateY = currentFence.getCoordinateY();
-
+            newCenter.id_Carer = "123";
+            newCenter.id_Patient = "123";
             alertDialog = new AlertDialog.Builder(this);
             mClient.getTable(Location.class).insert(newCenter, new TableOperationCallback<Location>() {
                 public void onCompleted(Location entity, Exception exception, ServiceFilterResponse response) {
@@ -217,7 +218,7 @@ public class MapsActivity extends AppCompatActivity {
                         Fence newFence = new Fence();
 
                         newFence.id_Location = newCenter.id;
-                        newFence.redius = currentFence.getRadius();
+                        newFence.radius = currentFence.getRadius();
                         creatNewFence(newFence);
 
                         /*alertDialog.setTitle("success...");
@@ -255,7 +256,7 @@ public class MapsActivity extends AppCompatActivity {
             );
             alertDialog = new AlertDialog.Builder(this);
             newFence.description = "123";
-            newFence.id_care = "123";
+            newFence.id_carer = "123";
             newFence.id_patient = "123";
             mClient.getTable(Fence.class).insert(newFence, new TableOperationCallback<Fence>() {
                 public void onCompleted(Fence entity, Exception exception, ServiceFilterResponse response) {
