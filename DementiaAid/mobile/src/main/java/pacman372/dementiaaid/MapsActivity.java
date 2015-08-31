@@ -1,8 +1,15 @@
 package pacman372.dementiaaid;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -10,16 +17,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 
-public class MapsActivity extends FragmentActivity {
+import com.microsoft.windowsazure.mobileservices.*;
+import java.net.MalformedURLException;
 
+public class MapsActivity extends AppCompatActivity {
+    public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+    private MobileServiceClient mClient;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private FenceView viewModel;
     private SeekBar radiusSlider;
+    private AlertDialog.Builder alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         viewModel = new FenceView();
 
         setUpMapIfNeeded();
@@ -46,7 +63,21 @@ public class MapsActivity extends FragmentActivity {
 
         syncFromModel();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
+        //添加菜单项
+        MenuItem doneAction=menu.add(0,0,0,"DONE");
 
+        //MenuItem del=menu.add(0,0,0,"del");
+        //MenuItem save=menu.add(0,0,0,"save");
+        //绑定到ActionBar
+        doneAction.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //del.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        return true;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -121,6 +152,87 @@ public class MapsActivity extends FragmentActivity {
         }
 
     }
+    /** Called when the user clicks the Send button */
+    public void DoneSetFence() {
+        /*Intent intent = new Intent(this, MapsActivity.class);
+        //EditText editText = (EditText) findViewById(R.id.edit_message);
+        String message = "123";
+        intent.putExtra(EXTRA_MESSAGE,message);
+        startActivity(intent);*/
+        alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Done ...");
+        alertDialog.setMessage("Call set fence");
+        alertDialog.show();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case 0:
 
+                DoneSetFence();
+                break;
+            // action with ID action_settings was selected
+            case android.R.id.home:
+                Intent intent = new Intent(this, TapMainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+    public void creatNewFence(){
+
+        try {
+            mClient = new MobileServiceClient(
+                    "https://pacmanandroid.azure-mobile.net/",
+                    "mpVjGDJAoCHcrHsuWkxJGTvjwBDZMk90",
+                    this
+            );
+            Patient patient = new Patient();
+            patient.name = "Cynthia_P";
+            patient.phone = "0424112714";
+            alertDialog = new AlertDialog.Builder(this);
+            mClient.getTable(Patient.class).insert(patient, new TableOperationCallback<Patient>() {
+                public void onCompleted(Patient entity, Exception exception, ServiceFilterResponse response) {
+                    if (exception == null) {
+                        // Insert succeeded
+
+                        alertDialog.setTitle("success...");
+                        alertDialog.setMessage("Insert succeeded!");
+
+                        /*alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                                //EditText et = (EditText)alertDialogView.findViewById(R.id.EditText1);
+
+
+                                //Toast.makeText(Tutoriel18_Android.this, et.getText(), Toast.LENGTH_SHORT).show();
+                            } });*/
+                        //alertDialog.setIcon(R.drawable.icon);
+                        alertDialog.show();
+
+                    } else {
+                        // Insert failed
+                        alertDialog.setTitle("Failed...");
+                        alertDialog.setMessage("Insert failed!");
+                        alertDialog.show();
+
+                    }
+                }
+            });
+        }catch (MalformedURLException e) {
+
+            //createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
+        } catch (Exception e){
+            //createAndShowDialog(e, "Error");
+        }
+
+    }
 
 }
