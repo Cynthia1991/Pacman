@@ -33,4 +33,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.google.maps.android:android-maps-utils:0.3.4'
+    compile 'com.microsoft.azure:azure-mobile-services-android-sdk:2.0.3'
 }
