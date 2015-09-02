@@ -14,11 +14,27 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/* cloud message test  */
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
+import com.google.android.gms.gcm.*;
+import com.microsoft.windowsazure.messaging.*;
+import com.microsoft.windowsazure.notifications.NotificationsManager;
+
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private FenceView viewModel;
     private SeekBar radiusSlider;
+    /*  cloud message members  */
+    private String SENDER_ID = "734783786830";
+    private GoogleCloudMessaging gcm;
+    private NotificationHub hub;
+    private String HubName = "androidpacmanhub-ns";
+    private String HubListenConnectionString = "Endpoint=sb://androidpacmanhub-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ERAEkI9fZ4egeKOsN1aEnqsL1aXUHOAfqIHtyoAwH8E=";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +77,13 @@ public class MapsActivity extends FragmentActivity {
 
         );
         /*test_end*/
+        /* register  */
+        MyHandler.MapsActivity = this;
+        NotificationsManager.handleNotifications(this, SENDER_ID, MyHandler.class);
+        gcm = GoogleCloudMessaging.getInstance(this);
+        hub = new NotificationHub(HubName, HubListenConnectionString, this);
+        registerWithNotificationHubs();
+
         syncFromModel();
     }
 
@@ -139,5 +162,59 @@ public class MapsActivity extends FragmentActivity {
 
     }
 
+        @SuppressWarnings("unchecked")
+        private void registerWithNotificationHubs() {
+            new AsyncTask() {
+                @Override
+                protected Object doInBackground(Object... params) {
+                    try {
+                        String regid = gcm.register(SENDER_ID);
+                        DialogNotify("Registered Successfully", "RegId : " +
+                                hub.register(regid).getRegistrationId());
+                    } catch (Exception e) {
+                        DialogNotify("Exception", e.getMessage());
+                        return e;
+                    }
+                    return null;
+                }
+            }.execute(null, null, null);
+        }
 
-}
+
+/**
+ * A modal AlertDialog for displaying a message on the UI thread
+ * when there's an exception or message to report.
+ *
+ * @param title   Title for the AlertDialog box.
+ * @param message The message displayed for the AlertDialog box.
+ */
+        public void DialogNotify(final String title,final String message)
+        {
+            final AlertDialog.Builder dlg;
+            dlg = new AlertDialog.Builder(this);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog dlgAlert = dlg.create();
+                    dlgAlert.setTitle(title);
+                    dlgAlert.setButton(DialogInterface.BUTTON_POSITIVE,
+                            (CharSequence) "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    dlgAlert.setMessage(message);
+                    dlgAlert.setCancelable(false);
+                    dlgAlert.show();
+                }
+            });
+        }
+
+
+
+    }
+
+
+
