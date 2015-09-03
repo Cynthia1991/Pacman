@@ -8,9 +8,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import com.microsoft.windowsazure.notifications.NotificationsHandler;
+
 public class MyHandler extends NotificationsHandler {
 
     public static final int NOTIFICATION_ID = 1;
@@ -19,6 +21,25 @@ public class MyHandler extends NotificationsHandler {
     Context ctx;
 
     static public MapsActivity MapsActivity;
+
+    @Override
+    public void onRegistered(Context context,  final String gcmRegistrationId) {
+        super.onRegistered(context, gcmRegistrationId);
+
+        new AsyncTask<Void, Void, Void>() {
+
+            protected Void doInBackground(Void... params) {
+                try {
+                    pacman372.dementiaaid.MapsActivity.mClient.getPush().register(gcmRegistrationId, null);
+                    return null;
+                }
+                catch(Exception e) {
+                    // handle error
+                }
+                return null;
+            }
+        }.execute();
+    }
 
     @Override
     public void onReceive(Context context, Bundle bundle) {

@@ -20,6 +20,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import com.google.android.gms.gcm.*;
 import com.microsoft.windowsazure.messaging.*;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 public class MapsActivity extends FragmentActivity {
@@ -28,12 +29,12 @@ public class MapsActivity extends FragmentActivity {
     private FenceView viewModel;
     private SeekBar radiusSlider;
     /*  cloud message members  */
-    private String SENDER_ID = "734783786830";
+    public String SENDER_ID = "323898389998";
     private GoogleCloudMessaging gcm;
     private NotificationHub hub;
     private String HubName = "androidpacmanhub-ns";
     private String HubListenConnectionString = "Endpoint=sb://androidpacmanhub-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ERAEkI9fZ4egeKOsN1aEnqsL1aXUHOAfqIHtyoAwH8E=";
-
+    public static MobileServiceClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +76,17 @@ public class MapsActivity extends FragmentActivity {
 
                                              }
 
+
         );
-        /*test_end*/
-        /* register  */
+
+
         MyHandler.MapsActivity = this;
         NotificationsManager.handleNotifications(this, SENDER_ID, MyHandler.class);
         gcm = GoogleCloudMessaging.getInstance(this);
         hub = new NotificationHub(HubName, HubListenConnectionString, this);
         registerWithNotificationHubs();
-
+ /*test_end*/
+        /* register  */
         syncFromModel();
     }
 
