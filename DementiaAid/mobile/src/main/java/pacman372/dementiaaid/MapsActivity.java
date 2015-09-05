@@ -11,6 +11,8 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import co.mobiwise.library.GCMManager;
+
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -42,10 +44,17 @@ public class MapsActivity extends FragmentActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
+
+
+
         });
 
+         /* GCM test */
+       // GCMManager.getInstance(this).registerListener(this);
         syncFromModel();
     }
+
+
 
     @Override
     protected void onResume() {
