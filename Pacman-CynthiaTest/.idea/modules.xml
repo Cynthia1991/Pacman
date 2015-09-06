@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MyApplicationTest2/mobile/src/androidTest/androidTest.iml" filepath="$PROJECT_DIR$/MyApplicationTest2/mobile/src/androidTest/androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DementiaAid/mobile/src/androidTest/androidTest1.iml" filepath="$PROJECT_DIR$/DementiaAid/mobile/src/androidTest/androidTest1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HelloWorld/mobile/src/androidTest/androidTest2.iml" filepath="$PROJECT_DIR$/HelloWorld/mobile/src/androidTest/androidTest2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HelloWorld/wear/src/main/main.iml" filepath="$PROJECT_DIR$/HelloWorld/wear/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DementiaAid/mobile/src/main/main1.iml" filepath="$PROJECT_DIR$/DementiaAid/mobile/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DementiaAid/wear/src/main/main2.iml" filepath="$PROJECT_DIR$/DementiaAid/wear/src/main/main2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyApplicationTest2/mobile/src/main/main3.iml" filepath="$PROJECT_DIR$/MyApplicationTest2/mobile/src/main/main3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyApplicationTest2/wear/src/main/main4.iml" filepath="$PROJECT_DIR$/MyApplicationTest2/wear/src/main/main4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HelloWorld/mobile/src/main/main5.iml" filepath="$PROJECT_DIR$/HelloWorld/mobile/src/main/main5.iml" />
+    </modules>
+  </component>
+</project>
