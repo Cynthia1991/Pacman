@@ -10,6 +10,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pushbots.push.Pushbots;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -20,8 +21,8 @@ public class MapsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        Pushbots.sharedInstance().init(this);
         viewModel = new FenceView();
-
         setUpMapIfNeeded();
         radiusSlider = (SeekBar)findViewById(R.id.radiusSlider);
         radiusSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -45,6 +46,8 @@ public class MapsActivity extends FragmentActivity {
         });
 
         syncFromModel();
+
+        //Pushbots.sharedInstance().regID();//device register id
     }
 
     @Override
