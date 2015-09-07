@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DementiaAid</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
+    <string name="Input_location">Input your location:</string>
+    <string name="button_send">Send</string>
+</resources>
