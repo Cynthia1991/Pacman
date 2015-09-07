@@ -65,6 +65,9 @@ public class FenceView {
 
         return new MarkerOptions().position(fence.center);
     }
+    public void setFence(CircularFence fence){
+        this.fence = fence;
 
+    }
 
 }

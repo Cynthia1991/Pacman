@@ -1,6 +1,7 @@
 package pacman372.dementiaaid;
 
 import android.app.Activity;
+import android.app.ActivityGroup;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +20,7 @@ import android.widget.Toast;
 
 import com.pushbots.push.Pushbots;
 
-public class TapMainActivity extends AppCompatActivity {
+public class TapMainActivity extends ActivityGroup {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     //private MobileServiceClient mClient;
     private AlertDialog.Builder alertDialog;
@@ -31,19 +32,58 @@ public class TapMainActivity extends AppCompatActivity {
         Pushbots.sharedInstance().init(this);
         Pushbots.sharedInstance().register();
         TabHost m = (TabHost)findViewById(R.id.tabhost);
-        m.setup();
+        m.setup(this.getLocalActivityManager());
+        //m.setup();
 
         LayoutInflater i=LayoutInflater.from(this);
-        i.inflate(R.layout.tab1, m.getTabContentView());
+        //i.inflate(R.layout.tab1, m.getTabContentView());
         i.inflate(R.layout.tab2, m.getTabContentView());
         i.inflate(R.layout.tab3, m.getTabContentView());//dynamic XML，no need for Activity
 
-        m.addTab(m.newTabSpec("tab1").setIndicator("Map").setContent(R.id.LinearLayout01));
-        m.addTab(m.newTabSpec("tab2").setIndicator("My Patient").setContent(R.id.LinearLayout02));
-        m.addTab(m.newTabSpec("tab3").setIndicator("My Info").setContent(R.id.LinearLayout03));
+
+
+
+        Intent intent =getIntent();
+        //getXxxExtra方法获取Intent传递过来的数据
+        double x=0,y=0;
+        int radius=0;
+        double latestX=intent.getDoubleExtra("x",x);
+        double latestY=intent.getDoubleExtra("y",y);
+        int latestRadius=intent.getIntExtra("radius", radius);
+
+        Intent intentNew=new Intent(this, Tab1ShowMapActivity.class);
+        intentNew.putExtra("x1",latestX);
+        intentNew.putExtra("y1",latestY);
+        intentNew.putExtra("radius1",latestRadius);
+        //startActivity(Tab1ShowMapActivity);
+
+
+
+
+        m.addTab(m.newTabSpec("tab1").setIndicator("Map").setContent(intentNew));
+        m.addTab(m.newTabSpec("tab2").setIndicator("Patient").setContent(R.id.LinearLayout02));
+        m.addTab(m.newTabSpec("tab3").setIndicator("Carer").setContent(R.id.LinearLayout03));
 
         button=(Button)findViewById(R.id.button);
     }
+
+  /*  private void receiveData(){
+
+        Intent intent =getIntent();
+        //getXxxExtra方法获取Intent传递过来的数据
+        double x=0,y=0;
+        int radius=0;
+        double latestX=intent.getDoubleExtra("x",x);
+        double latestY=intent.getDoubleExtra("y",y);
+        int latestRadius=intent.getIntExtra("radius", radius);
+
+        Intent intentNew=new Intent(this, Tab1ShowMapActivity.class);
+        intentNew.putExtra("x1",latestX);
+        intentNew.putExtra("y1",latestY);
+        intentNew.putExtra("radius1",latestRadius);
+
+
+    }*/
     /*public void creatNewPatient(){
 
         try {
@@ -108,8 +148,21 @@ public class TapMainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         //EditText editText = (EditText) findViewById(R.id.edit_message);
         String message = "123";
-        intent.putExtra(EXTRA_MESSAGE,message);
-        startActivity(intent);
+        intent.putExtra(EXTRA_MESSAGE, message);
+        //startActivity(intent);
+        startActivityForResult(intent, 1);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+                 //当otherActivity中返回数据的时候，会响应此方法
+                 //requestCode和resultCode必须与请求startActivityForResult()和返回setResult()的时候传入的值一致。
+        if(requestCode==1&&resultCode==2)
+        {
+            int three=data.getIntExtra("three", 0);
+            //result.setText(String.valueOf(three));
+        }
+    }
+
 
 }
