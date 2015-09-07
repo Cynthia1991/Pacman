@@ -16,8 +16,13 @@ import com.google.maps.android.SphericalUtil;
 public class FenceView {
     protected CircularFence fence;
 
+    public static final LatLng DEFAULT_CAMERA = new LatLng(-27.4667, 153.0333);
     public boolean canChangeRadius() {
-        return fence != null && fence.center != null;
+        return !isCenterUndefined();
+    }
+
+    private boolean isCenterUndefined() {
+        return fence == null || fence.center == null;
     }
     public void mapClicked(LatLng latLng) {
         if (fence == null) {
@@ -34,7 +39,7 @@ public class FenceView {
     }
 
     public CircleOptions getPerimeterOptions(){
-        if (fence == null || fence.center == null || fence.radius <= 0) {
+        if (isCenterUndefined() || fence.radius <= 0) {
             return null;
         }
 
@@ -43,16 +48,17 @@ public class FenceView {
     }
 
     public LatLng getCameraLocation() {
-        if (fence == null || fence.center == null) {
-            return new LatLng(-27.4667, 153.0333);
+        if (isCenterUndefined()) {
+            return DEFAULT_CAMERA;
         }
 
         return fence.center;
 
     }
 
+
     public MarkerOptions getCenterOptions(){
-        if (fence == null || fence.center == null)
+        if (isCenterUndefined())
         {
             return null;
         }

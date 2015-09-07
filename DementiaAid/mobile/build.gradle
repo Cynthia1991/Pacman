@@ -24,7 +24,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        debug {
+            signingConfig signingConfigs.release
+        }
     }
+    sourceSets { main { java.srcDirs = ['src/main/java'] } }
 }
 
 dependencies {
@@ -33,4 +37,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.google.maps.android:android-maps-utils:0.3.4'
+    testCompile 'junit:junit:4.12'
 }
