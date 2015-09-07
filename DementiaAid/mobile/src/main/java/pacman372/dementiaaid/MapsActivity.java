@@ -25,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pushbots.push.Pushbots;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,11 +67,16 @@ public class MapsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+<<<<<<< HEAD
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         viewModel = new FenceView();
         currentFence = new CircularFence();
         newCenter = new Location();
+=======
+        Pushbots.sharedInstance().init(this);
+        viewModel = new FenceView();
+>>>>>>> noti_test3
         setUpMapIfNeeded();
         radiusSlider = (SeekBar) findViewById(R.id.radiusSlider);
         radiusSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -94,6 +100,8 @@ public class MapsActivity extends AppCompatActivity {
         });
 
         syncFromModel();
+
+        //Pushbots.sharedInstance().regID();//device register id
     }
 
     @Override
