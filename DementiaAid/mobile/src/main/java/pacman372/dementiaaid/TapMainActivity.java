@@ -1,14 +1,14 @@
 package pacman372.dementiaaid;
 
 import android.app.Activity;
-<<<<<<< HEAD
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-=======
+
 import android.app.ActivityGroup;
->>>>>>> origin/master
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
@@ -30,16 +30,18 @@ import android.widget.Toast;
 import com.google.android.gms.gcm.Task;
 import com.pushbots.push.Pushbots;
 
-<<<<<<< HEAD
-public class TapMainActivity extends AppCompatActivity {
-   /* alarm test*/
+
+
+
+
+public class TapMainActivity extends ActivityGroup {
+    /* alarm test*/
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     private  Context context;
     private ProgressBar bar;
-=======
-public class TapMainActivity extends ActivityGroup {
->>>>>>> origin/master
+
+
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     //private MobileServiceClient mClient;
     private AlertDialog.Builder alertDialog;
@@ -103,12 +105,12 @@ public class TapMainActivity extends ActivityGroup {
         });
     }
 
-<<<<<<< HEAD
 
 
 
 
-=======
+
+
   /*  private void receiveData(){
 
         Intent intent =getIntent();
@@ -126,7 +128,7 @@ public class TapMainActivity extends ActivityGroup {
 
 
     }*/
->>>>>>> origin/master
+
     /*public void creatNewPatient(){
 
         try {

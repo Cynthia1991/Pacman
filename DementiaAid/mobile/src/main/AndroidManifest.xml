@@ -75,13 +75,8 @@
             </intent-filter>
         </receiver>
         <receiver android:name="com.pushbots.push.DefaultPushHandler" />
-<<<<<<< HEAD
-
 
         <service android:name="com.pushbots.push.GCMIntentService" />
-=======
->>>>>>> origin/master
-
         <service android:name="com.pushbots.push.GCMIntentService" />
 
         <activity
