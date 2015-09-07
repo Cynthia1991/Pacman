@@ -1,7 +1,11 @@
 package pacman372.dementiaaid;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.SeekBar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -11,7 +15,11 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity {
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
+
+public class MapsActivity extends AppCompatActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private FenceView viewModel;
@@ -121,6 +129,57 @@ public class MapsActivity extends FragmentActivity {
         }
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
+        //添加菜单项
+        MenuItem doneAction = menu.add(0, 0, 0, "DONE");
 
+        //MenuItem del=menu.add(0,0,0,"del");
+        //MenuItem save=menu.add(0,0,0,"save");
+        //绑定到ActionBar
+        doneAction.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //del.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case 0:
+
+                try {
+                    DoneSetFence();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                break;
+            // action with ID action_settings was selected
+            case android.R.id.home:
+                Intent intent = new Intent(this, TapMainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * Called when the user clicks the done button
+     */
+    public void DoneSetFence() throws UnsupportedEncodingException, JSONException, InterruptedException {
+
+    }
 
 }
