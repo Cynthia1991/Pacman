@@ -8,4 +8,5 @@
 
     <string name="button_send">Set Fence</string>
     <string name="Done_Button">Done</string>
+    <string name="title_activity_tab1_show_map">Tab1ShowMapActivity</string>
 </resources>

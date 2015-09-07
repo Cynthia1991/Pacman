@@ -63,6 +63,10 @@ public class MapsActivity extends AppCompatActivity {
     private final static String locationUrl3="http://pacmandementiaaid.azurewebsites.net/api/Fence";
     private int IDCarer=-1;
     private int IDLocation=-1;
+    private double latestX=-1;
+    private double latestY=-1;
+    private int latestRadius=-1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -257,6 +261,12 @@ public class MapsActivity extends AppCompatActivity {
                 downloadUrl(locationUrl2, 2);
                 downloadUrl(locationUrl3, 3);
                 //alertDialog.setMessage("success");
+
+
+                //启动需要监听返回值的Activity，并设置请求码：requestCode
+
+
+
                 return "success";
 
 
@@ -267,6 +277,11 @@ public class MapsActivity extends AppCompatActivity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         public void onPostExecute(String result) {
+            Intent intent=new Intent(MapsActivity.this, TapMainActivity.class);
+            intent.putExtra("x", latestX);
+            intent.putExtra("y", latestY);
+            intent.putExtra("radius",latestRadius);
+            startActivity(intent);
             TextView textView=(TextView)findViewById(R.id.textView3);
             textView.setText(result);
         }
@@ -296,7 +311,9 @@ public class MapsActivity extends AppCompatActivity {
                     location.setId_Patient(121);
                     location.setId_Carer(IDCarer);
                     location.setCoordinateX(currentFence.getCoordinateX());
+                    latestX=currentFence.getCoordinateX();
                     location.setCoordinateY(currentFence.getCoordinateY());
+                    latestY=currentFence.getCoordinateY();
                     m = 2;
                     //location.setId_Carer(carer.getID());
                     break;
@@ -306,6 +323,7 @@ public class MapsActivity extends AppCompatActivity {
                     fence.setId_carer(IDCarer);
                     fence.setId_location(IDLocation);
                     fence.setRadius(currentFence.getRadius());
+                    latestRadius=currentFence.getRadius();
                     fence.setId_patient(121);
                     m = 3;
                     break;
