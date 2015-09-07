@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
@@ -18,14 +19,19 @@ import android.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.Task;
 import com.pushbots.push.Pushbots;
 
 public class TapMainActivity extends AppCompatActivity {
-
-
+   /* alarm test*/
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
+    private  Context context;
+    private ProgressBar bar;
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     //private MobileServiceClient mClient;
     private AlertDialog.Builder alertDialog;
@@ -55,16 +61,23 @@ public class TapMainActivity extends AppCompatActivity {
 
         button2.setOnClickListener(new View.OnClickListener(){@Override
                                                               public void onClick(View view) {
-            Alarm alarm =new Alarm();
-            alarm.alarm1();
 
 
+            alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(context, TapMainActivity.class);
+            alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() +
+                            10 * 1000, alarmIntent);
         }
         });
-
-
-
     }
+
+
+
+
+
     /*public void creatNewPatient(){
 
         try {
