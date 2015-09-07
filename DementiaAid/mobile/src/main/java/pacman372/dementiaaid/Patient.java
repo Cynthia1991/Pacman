@@ -1,24 +1,19 @@
-package pacman372.dementiaaid;
-
 /**
- * Created by fuqian on 7/09/2015.
+ * Created by fuqian on 31/08/2015.
  */
+package pacman372.dementiaaid;
 public class Patient {
-    protected int id;
-    protected String name;
-    protected String phone;
+    private int ID;
+    private String name;
+    private String phone;
+    private String device_id;
 
-    public String getDevice_id() {
-        return device_id;
+    public int getID() {
+        return ID;
     }
 
-    public void setDevice_id(String device_id) {
-        this.device_id = device_id;
-    }
-
-    protected String device_id;
-    public int getId() {
-        return id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getName() {
@@ -37,6 +32,11 @@ public class Patient {
         this.phone = phone;
     }
 
+    public String getDevice_id() {
+        return device_id;
+    }
 
-
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
+    }
 }

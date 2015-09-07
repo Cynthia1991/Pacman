@@ -1,12 +1,23 @@
 package pacman372.dementiaaid;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.JsonReader;
+import android.util.JsonWriter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,22 +27,52 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends AppCompatActivity {
-
+    public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+    //private MobileServiceClient mClient;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private FenceView viewModel;
     private SeekBar radiusSlider;
+    private AlertDialog.Builder alertDialog;
+    private CircularFence currentFence;
+    private Location newCenter;
+    private String Location = null;
+    private final static String locationUrl1="http://pacmandementiaaid.azurewebsites.net/api/Carer";
+    private final static String locationUrl2="http://pacmandementiaaid.azurewebsites.net/api/Location";
+    private final static String locationUrl3="http://pacmandementiaaid.azurewebsites.net/api/Fence";
+    private int IDCarer=-1;
+    private int IDLocation=-1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         viewModel = new FenceView();
-
+        currentFence = new CircularFence();
+        newCenter = new Location();
         setUpMapIfNeeded();
-        radiusSlider = (SeekBar)findViewById(R.id.radiusSlider);
+        radiusSlider = (SeekBar) findViewById(R.id.radiusSlider);
         radiusSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -53,6 +94,22 @@ public class MapsActivity extends AppCompatActivity {
         });
 
         syncFromModel();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
+        //添加菜单项
+        MenuItem doneAction = menu.add(0, 0, 0, "DONE");
+
+        //MenuItem del=menu.add(0,0,0,"del");
+        //MenuItem save=menu.add(0,0,0,"save");
+        //绑定到ActionBar
+        doneAction.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //del.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        return true;
     }
 
     @Override
@@ -127,22 +184,25 @@ public class MapsActivity extends AppCompatActivity {
         if (radiusEnabled) {
             radiusSlider.setProgress(viewModel.fence.radius);
         }
+        if ((null != currentFence) && (null != viewModel.fence)) {
+            currentFence.setRadius(viewModel.fence.radius);
+            currentFence.setCenter(viewModel.fence.center);
+        }
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        super.onCreateOptionsMenu(menu);
-        //添加菜单项
-        MenuItem doneAction = menu.add(0, 0, 0, "DONE");
 
-        //MenuItem del=menu.add(0,0,0,"del");
-        //MenuItem save=menu.add(0,0,0,"save");
-        //绑定到ActionBar
-        doneAction.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        //del.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        //save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        return true;
+    /**
+     * Called when the user clicks the Send button
+     */
+    public void DoneSetFence() throws UnsupportedEncodingException, JSONException, InterruptedException {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new DownloadWebpageTask().execute(locationUrl1);
+        }else {
+            alertDialog.setMessage("No network connection available.");
+        }
     }
 
     @Override
@@ -150,7 +210,6 @@ public class MapsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case 0:
-
                 try {
                     DoneSetFence();
                 } catch (UnsupportedEncodingException e) {
@@ -167,7 +226,6 @@ public class MapsActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-
                 break;
             default:
                 break;
@@ -175,11 +233,148 @@ public class MapsActivity extends AppCompatActivity {
         return true;
     }
 
-    /**
-     * Called when the user clicks the done button
-     */
-    public void DoneSetFence() throws UnsupportedEncodingException, JSONException, InterruptedException {
+    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                //Location location=new Location();
+                // JSONObject jsonObject=new JSONObject(downloadUrl(urls[0],1));
+                // location.id = jsonObject.getString("ID");
+                //location.id_Carer=jsonObject.getInt("ID");
+                downloadUrl(urls[0], 1);
+                downloadUrl(locationUrl2, 2);
+                downloadUrl(locationUrl3, 3);
+                //alertDialog.setMessage("success");
+                return "success";
+
+
+            } catch (IOException e) {
+                return "Unable to retrieve web page. URL may be invalid.";
+            }
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        public void onPostExecute(String result) {
+            TextView textView=(TextView)findViewById(R.id.textView3);
+            textView.setText(result);
+        }
+
+
+
+        private String downloadUrl(String myurl, int n) throws IOException {
+            InputStream is = null;
+            // Only display the first 500 characters of the retrieved
+            // web page content.
+            int s = -1;
+            int m = -1;
+            Carer carer = new Carer();
+            Fence fence = new Fence();
+            Location location = new Location();
+            int len = 500;
+            switch (n) {
+                case 1:
+                    carer.setAddress("Street");
+                    carer.setEmail("a@a.com");
+                    carer.setName("NotGeoff");
+                    carer.setPhone(786);
+                    m = 1;
+                    break;
+                case 2:
+                    //location.setID(ID);
+                    location.setId_Patient(121);
+                    location.setId_Carer(IDCarer);
+                    location.setCoordinateX(currentFence.getCoordinateX());
+                    location.setCoordinateY(currentFence.getCoordinateY());
+                    m = 2;
+                    //location.setId_Carer(carer.getID());
+                    break;
+                case 3:
+                    //fence.setID(ID);
+                    fence.setDescription("asd");
+                    fence.setId_carer(IDCarer);
+                    fence.setId_location(IDLocation);
+                    fence.setRadius(currentFence.getRadius());
+                    fence.setId_patient(121);
+                    m = 3;
+                    break;
+
+            }
+
+
+            try {
+                URL url = new URL(myurl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setReadTimeout(10000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setRequestMethod("POST");
+                JsonWriter writer = new JsonWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+                switch (m) {
+                    case 1:
+                        carer.serializeJson(writer);
+                        s = 1;
+                        break;
+                    case 2:
+                        location.serializeJson(writer);
+                        s = 2;
+                        break;
+                    case 3:
+                        fence.serializeJson(writer);
+                        break;
+                }
+                // carer.serializeJson(writer);
+                writer.close();
+
+                // Starts the query
+                conn.connect();
+                //int response = conn.getResponseCode();
+                is = conn.getInputStream();
+                // Convert the InputStream into a string
+                String contentAsString = readIt(is, len);
+                switch (s) {
+                    case 1:
+                        JSONObject jsonObject = new JSONObject(contentAsString);
+                        IDCarer = jsonObject.getInt("ID");
+
+                        break;
+                    case 2:
+                        JSONObject jsonObject1 = new JSONObject(contentAsString);
+                        IDLocation = jsonObject1.getInt("ID");
+                        break;
+
+
+                }
+
+                return contentAsString;
+
+            } catch (JSONException e) {
+                return "json error";
+            } finally {
+                if (is != null) {
+                    is.close();
+                }
+            }
+        }
+
+        public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+            Reader reader = null;
+
+            reader = new InputStreamReader(stream, "UTF-8");
+            char[] buffer = new char[len];
+            reader.read(buffer);
+            return new String(buffer);
+        }
 
     }
 
 }
+
+
+
+
