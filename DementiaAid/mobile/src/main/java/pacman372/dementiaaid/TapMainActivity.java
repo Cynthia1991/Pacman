@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.pushbots.push.Pushbots;
+
 public class TapMainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     //private MobileServiceClient mClient;
@@ -26,13 +28,15 @@ public class TapMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tap_main);
+        Pushbots.sharedInstance().init(this);
+        Pushbots.sharedInstance().register();
         TabHost m = (TabHost)findViewById(R.id.tabhost);
         m.setup();
 
         LayoutInflater i=LayoutInflater.from(this);
         i.inflate(R.layout.tab1, m.getTabContentView());
         i.inflate(R.layout.tab2, m.getTabContentView());
-        i.inflate(R.layout.tab3, m.getTabContentView());//动态载入XML，而不需要Activity
+        i.inflate(R.layout.tab3, m.getTabContentView());//dynamic XML，no need for Activity
 
         m.addTab(m.newTabSpec("tab1").setIndicator("Map").setContent(R.id.LinearLayout01));
         m.addTab(m.newTabSpec("tab2").setIndicator("My Patient").setContent(R.id.LinearLayout02));

@@ -67,16 +67,16 @@ public class MapsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-<<<<<<< HEAD
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         viewModel = new FenceView();
         currentFence = new CircularFence();
         newCenter = new Location();
-=======
-        Pushbots.sharedInstance().init(this);
+
+        //Pushbots.sharedInstance().init(this);
         viewModel = new FenceView();
->>>>>>> noti_test3
+
         setUpMapIfNeeded();
         radiusSlider = (SeekBar) findViewById(R.id.radiusSlider);
         radiusSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -108,12 +108,12 @@ public class MapsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
-        //添加菜单项
+        //add menu
         MenuItem doneAction = menu.add(0, 0, 0, "DONE");
 
         //MenuItem del=menu.add(0,0,0,"del");
         //MenuItem save=menu.add(0,0,0,"save");
-        //绑定到ActionBar
+        //bind to ActionBar
         doneAction.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         //del.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         //save.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
