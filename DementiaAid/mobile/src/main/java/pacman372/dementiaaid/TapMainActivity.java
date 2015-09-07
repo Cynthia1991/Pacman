@@ -1,8 +1,12 @@
 package pacman372.dementiaaid;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,10 +24,13 @@ import android.widget.Toast;
 import com.pushbots.push.Pushbots;
 
 public class TapMainActivity extends AppCompatActivity {
+
+
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     //private MobileServiceClient mClient;
     private AlertDialog.Builder alertDialog;
     Button button;
+    Button button2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,20 @@ public class TapMainActivity extends AppCompatActivity {
         m.addTab(m.newTabSpec("tab3").setIndicator("My Info").setContent(R.id.LinearLayout03));
 
         button=(Button)findViewById(R.id.button);
+
+        button2=(Button)findViewById(R.id.button2);
+
+        button2.setOnClickListener(new View.OnClickListener(){@Override
+                                                              public void onClick(View view) {
+            Alarm alarm =new Alarm();
+            alarm.alarm1();
+
+
+        }
+        });
+
+
+
     }
     /*public void creatNewPatient(){
 

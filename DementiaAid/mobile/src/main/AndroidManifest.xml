@@ -74,6 +74,8 @@
             </intent-filter>
         </receiver>
         <receiver android:name="com.pushbots.push.DefaultPushHandler" />
+
+
         <service android:name="com.pushbots.push.GCMIntentService" />
 
 

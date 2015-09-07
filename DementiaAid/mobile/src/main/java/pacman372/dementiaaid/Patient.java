@@ -2,6 +2,9 @@
  * Created by fuqian on 31/08/2015.
  */
 package pacman372.dementiaaid;
+
+import com.pushbots.push.Pushbots;
+
 public class Patient {
     private int ID;
     private String name;
