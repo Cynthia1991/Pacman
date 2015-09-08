@@ -65,7 +65,7 @@ public class TapMainActivity extends ActivityGroup {
 
 
         Intent intent =getIntent();
-        //getXxxExtra方法获取Intent传递过来的数据
+
         double x=0,y=0;
         int radius=0;
         double latestX=intent.getDoubleExtra("x",x);
@@ -113,7 +113,6 @@ public class TapMainActivity extends ActivityGroup {
   /*  private void receiveData(){
 
         Intent intent =getIntent();
-        //getXxxExtra方法获取Intent传递过来的数据
         double x=0,y=0;
         int radius=0;
         double latestX=intent.getDoubleExtra("x",x);
@@ -196,11 +195,10 @@ public class TapMainActivity extends ActivityGroup {
         //startActivity(intent);
         startActivityForResult(intent, 1);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-                 //当otherActivity中返回数据的时候，会响应此方法
-                 //requestCode和resultCode必须与请求startActivityForResult()和返回setResult()的时候传入的值一致。
         if(requestCode==1&&resultCode==2)
         {
             int three=data.getIntExtra("three", 0);

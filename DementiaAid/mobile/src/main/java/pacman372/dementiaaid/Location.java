@@ -15,6 +15,13 @@ public class Location {
     public void Location(){
 
     }
+    public void Location(int id,double x,double y,int id_P,int id_C){
+        this.id = id;
+        this.coordinates_x = x;
+        this.coordinates_y = y;
+        this.id_Patient = id_P;
+        this.id_Carer = id_C;
+    }
     public int getID() {
         return id;
     }

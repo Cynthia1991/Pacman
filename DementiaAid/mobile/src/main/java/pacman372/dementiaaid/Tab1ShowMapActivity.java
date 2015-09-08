@@ -26,7 +26,6 @@ public class Tab1ShowMapActivity extends FragmentActivity {
 
 
         Intent intent =getIntent();
-                //getXxxExtra方法获取Intent传递过来的数据
         double x=0,y=0;
         int radius=0;
         double latestX=intent.getDoubleExtra("x1",x);
