@@ -9,6 +9,13 @@ public class CircularFence {
     protected int radius;
     protected LatLng center;
 
+    public CircularFence(){
+
+    }
+    public CircularFence(LatLng center, int radius) {
+        setRadius(radius);
+        setCenter(center);
+    }
     public void setRadius(int newRadius) {
 
         this.radius = newRadius;

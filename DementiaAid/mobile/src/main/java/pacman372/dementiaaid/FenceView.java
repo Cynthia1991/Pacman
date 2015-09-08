@@ -26,9 +26,7 @@ public class FenceView {
     }
     public void mapClicked(LatLng latLng) {
         if (fence == null) {
-            fence = new CircularFence();
-            fence.setRadius(10);
-            fence.setCenter(latLng);
+            fence = new CircularFence(latLng, 10);
         }
 
         fence.setCenter(latLng);
