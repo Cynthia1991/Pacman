@@ -12,19 +12,13 @@ import android.app.ActivityGroup;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import java.net.MalformedURLException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -42,38 +36,25 @@ import com.pushbots.push.Pushbots;
 
 public class TapMainActivity extends ActivityGroup {
     /* alarm test*/
-
-    public static  Context context1;
-
-
-
-    public static Context context2;
-
-    public void setContext(Context context2) {
-        this.context2 = getBaseContext();
-    }
-
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
+    private  Context context;
     private ProgressBar bar;
-    //public Calendar calendar =Calendar.getInstance(Locale.ENGLISH);
 
 
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     //private MobileServiceClient mClient;
     private AlertDialog.Builder alertDialog;
-
     Button button;
     Button button2;
-
-
-
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tap_main);
         Pushbots.sharedInstance().init(this);
         Pushbots.sharedInstance().register();
         TabHost m = (TabHost)findViewById(R.id.tabhost);
-        m.setup( this.getLocalActivityManager());
+        m.setup(this.getLocalActivityManager());
         //m.setup();
 
         LayoutInflater i=LayoutInflater.from(this);
@@ -84,7 +65,7 @@ public class TapMainActivity extends ActivityGroup {
 
 
 
-        final Intent intent =getIntent();
+        Intent intent =getIntent();
         //getXxxExtra方法获取Intent传递过来的数据
         double x=0,y=0;
         int radius=0;
@@ -113,21 +94,16 @@ public class TapMainActivity extends ActivityGroup {
                                                               public void onClick(View view) {
 
 
-            //AlarmReceiver alarmReceiver=new AlarmReceiver();
-           // startActivity();
+            alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(context, TapMainActivity.class);
+            alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-
+            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() +
+                            10 * 1000, alarmIntent);
         }
         });
-
-
-
-
-
-
     }
-
-
 
 
 
