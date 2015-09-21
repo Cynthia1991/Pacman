@@ -98,6 +98,5 @@
     <orderEntry type="library" exported="" name="android-maps-utils-0.3.4" level="project" />
     <orderEntry type="library" exported="" name="pushbots-lib-2.0.13" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.1" level="project" />
-    <orderEntry type="module" module-name="wear" />
   </component>
 </module>
