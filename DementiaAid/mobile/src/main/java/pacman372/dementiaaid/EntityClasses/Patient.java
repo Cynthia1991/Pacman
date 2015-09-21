@@ -1,7 +1,7 @@
 /**
  * Created by fuqian on 31/08/2015.
  */
-package pacman372.dementiaaid;
+package pacman372.dementiaaid.EntityClasses;
 
 import com.pushbots.push.Pushbots;
 
@@ -10,7 +10,20 @@ public class Patient {
     private String name;
     private String phone;
     private String device_id;
+    public Patient(){
 
+
+
+    }
+
+    public Patient(String name){
+
+        this.name = name;
+
+
+
+
+    }
     public int getID() {
         return ID;
     }

@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 
-import pacman372.dementiaaid.FenceView;
+import pacman372.dementiaaid.SetFence.FenceView;
 
 public class FenceViewTest {
     FenceView viewModel;
@@ -42,5 +42,6 @@ public class FenceViewTest {
         viewModel.mapClicked(somewhereElse);
         assertEquals(somewhereElse, viewModel.getCameraLocation());
     }
+
 
 }

@@ -1,37 +1,26 @@
 package pacman372.dementiaaid;
 
-import android.app.Activity;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 
 import android.app.ActivityGroup;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import java.net.MalformedURLException;
 import android.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
-import android.widget.Toast;
 
-import com.google.android.gms.gcm.Task;
 import com.pushbots.push.Pushbots;
 
-
-
+import pacman372.dementiaaid.SetFence.MapsActivity;
 
 
 public class TapMainActivity extends ActivityGroup {
@@ -66,7 +55,7 @@ public class TapMainActivity extends ActivityGroup {
 
 
         Intent intent =getIntent();
-        //getXxxExtra方法获取Intent传递过来的数据
+
         double x=0,y=0;
         int radius=0;
         double latestX=intent.getDoubleExtra("x",x);
@@ -114,7 +103,6 @@ public class TapMainActivity extends ActivityGroup {
   /*  private void receiveData(){
 
         Intent intent =getIntent();
-        //getXxxExtra方法获取Intent传递过来的数据
         double x=0,y=0;
         int radius=0;
         double latestX=intent.getDoubleExtra("x",x);
@@ -197,11 +185,10 @@ public class TapMainActivity extends ActivityGroup {
         //startActivity(intent);
         startActivityForResult(intent, 1);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-                 //当otherActivity中返回数据的时候，会响应此方法
-                 //requestCode和resultCode必须与请求startActivityForResult()和返回setResult()的时候传入的值一致。
         if(requestCode==1&&resultCode==2)
         {
             int three=data.getIntExtra("three", 0);

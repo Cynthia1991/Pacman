@@ -1,4 +1,4 @@
-package pacman372.dementiaaid;
+package pacman372.dementiaaid.EntityClasses;
 
 import android.util.JsonWriter;
 import android.util.Log;
