@@ -63,5 +63,9 @@ public class FenceView {
         this.fence = fence;
 
     }
+    public CircularFence getFence(){
+        return fence;
+
+    }
 
 }

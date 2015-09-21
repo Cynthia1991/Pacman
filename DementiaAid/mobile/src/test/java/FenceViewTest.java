@@ -43,19 +43,5 @@ public class FenceViewTest {
         assertEquals(somewhereElse, viewModel.getCameraLocation());
     }
 
-    public void MakeTea（）{
-        SteelKettle kettle;
-        SugarDispenser sd;
-        PlasticCup cup;
-        TeaMaker tm = new TeaMaker(kettle, sd, cup);
-        Assert.IsHot(tm. MakeTea())
-    }
 
-    public void MakeTea（）{
-        WoodenKettle kettle;
-        SugarDispenser sd;
-        SteelCup cup;
-        TeaMaker tm = new TeaMaker(kettle, sd, cup);
-        Assert.IsHot(tm.MakeTea())
-    }
 }

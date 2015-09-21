@@ -10,6 +10,12 @@ public class Patient {
     private String name;
     private String phone;
     private String device_id;
+    public Patient(){
+
+
+
+    }
+
     public Patient(String name){
 
         this.name = name;
