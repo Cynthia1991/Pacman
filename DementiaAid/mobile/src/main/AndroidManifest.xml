@@ -45,13 +45,7 @@
             android:name=".TapMainActivity"
             android:label="@string/title_activity_tap_main" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="pacman372.dementiaaid.MESSAGE" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -82,6 +76,20 @@
         <activity
             android:name=".Tab1ShowMapActivity"
             android:label="@string/title_activity_tab1_show_map" >
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginResult"
+            android:label="@string/title_activity_login_result"
+            android:parentActivityName=".LoginActivity" >
         </activity>
     </application>
 
