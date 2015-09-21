@@ -8,8 +8,9 @@ import org.junit.Test;
 import java.util.List;
 import pacman372.dementiaaid.SetFence.CircularFence;
 import pacman372.dementiaaid.ServerAidClasses.DementiaAidServer;
-
-
+import pacman372.dementiaaid.ServerAidClasses.PatientSession;
+import pacman372.dementiaaid.ServerAidClasses.CarerSession;
+import pacman372.dementiaaid.EntityClasses.Carer;
 public class DementiaAidServerTest {
 
     DementiaAidServer server;
@@ -33,10 +34,11 @@ public class DementiaAidServerTest {
     @Test
     /*Story 1: */
     public void patientLocationUpdateShouldAlertApprovedCarersIfOutsideFence() {
-        setupCarerWithOnePatient("carer1Email", "patient1Email");
+        setupCarerWithOnePatient("carer1Email", "patient1Name");
 
         String carer1Key = "";//loaded from device storage
         CarerSession carer1Session = server.getCarerSession("carer1Email", carer1Key);
+
         Entity<Patient> persistedPatient1 = carer1Session.getPatients().get(0);
 
         CircularFence boundary = new CircularFence(new LatLng(-127, 27), 100);
@@ -53,7 +55,7 @@ public class DementiaAidServerTest {
         Assert.assertEquals(1, patientAlertsAfterPatientLeftFence.size());
     }
 
-    public void setupCarerWithOnePatient(String carerEmail, String patientEmail){
+    public void setupCarerWithOnePatient(String carerEmail, String patientName){
 
         //Carer1 app
         Carer carer1 = new Carer(carerEmail);
@@ -65,8 +67,8 @@ public class DementiaAidServerTest {
         List<Entity<Patient>> carer1Patients = carer1Session.getPatients();
 
         Assert.assertTrue(carer1Patients.isEmpty());
-
-        Patient patient1 = new Patient(patientEmail);
+        String name = "CynthiaP";
+        Patient patient1 = new Patient(patientName);
 
         Entity<Patient> persistedPatient1 = carer1Session.addPatient(patient1);
         //Server sends email to patient1 with authorization key

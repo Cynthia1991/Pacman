@@ -8,21 +8,38 @@ import pacman372.dementiaaid.EntityClasses.Patient;
 import pacman372.dementiaaid.PatientAlert;
 import pacman372.dementiaaid.SetFence.CircularFence;
 
+
 /**
  * Created by fuqian on 21/09/2015.
  * This class responsible for
  */
 public class PatientSession {
-    public PatientSession(Entity<Carer> carer) {
+    Entity<Patient> currentPatient;
+    CarerRequest currentCarerRequest;
+    public PatientSession(Entity<Patient> patient) {
+        this.currentPatient = patient;
+    }
+    /*public Entity<CircularFence> addFence(CircularFence fence, Entity<Patient> patient) {
+        throw new UnsupportedOperationException();
+    }
+    public List<Entity<PatientAlert>> getPatientLastLocation(){
+        throw new UnsupportedOperationException();
+    }*/
+    /*
+    * Get
+    * */
+    public void setCarerRequest( CarerRequest aCarerR){
+        this.currentCarerRequest = aCarerR;
+    }
+    public CarerRequest getCarerRequest(){
+        //CarerRequest aCarerR = new CarerRequest();
+        return currentCarerRequest;
 
     }
-    public Entity<CircularFence> addFence(CircularFence fence, Entity<Patient> patient) {
-        throw new UnsupportedOperationException();
-    }
-    public List<Entity<PatientAlert>> getPatientAlerts(){
-        throw new UnsupportedOperationException();
-    }
-    public void addCarerApproval(){
+    /**/
+    public void addCarerApproval(Entity<CarerRequest> carerRequestEntity){
+
+
 
 
     }

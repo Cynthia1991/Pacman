@@ -10,7 +10,14 @@ public class Patient {
     private String name;
     private String phone;
     private String device_id;
+    public Patient(String name){
 
+        this.name = name;
+
+
+
+
+    }
     public int getID() {
         return ID;
     }
