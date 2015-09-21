@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MapsActivity"
+            android:name=".SetFence.MapsActivity"
             android:label="@string/title_activity_maps"
             android:parentActivityName=".TapMainActivity" >
         </activity>

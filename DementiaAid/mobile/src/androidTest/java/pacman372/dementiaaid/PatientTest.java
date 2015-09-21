@@ -2,6 +2,8 @@ package pacman372.dementiaaid;
 
 import junit.framework.TestCase;
 
+import pacman372.dementiaaid.EntityClasses.Patient;
+
 /**
  * Created by fuqian on 8/09/2015.
  */

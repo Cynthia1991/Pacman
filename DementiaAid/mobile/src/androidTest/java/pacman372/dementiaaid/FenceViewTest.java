@@ -4,6 +4,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
 
+import pacman372.dementiaaid.SetFence.CircularFence;
+import pacman372.dementiaaid.SetFence.FenceView;
+
 /**
  * Created by fuqian on 8/09/2015.
  */
