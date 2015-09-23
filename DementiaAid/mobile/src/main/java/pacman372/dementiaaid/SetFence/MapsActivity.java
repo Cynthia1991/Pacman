@@ -299,7 +299,7 @@ public class MapsActivity extends AppCompatActivity {
                     break;
                 case 2:
                     //location.setID(ID);
-                    location.setId_Patient(121);
+                    location.setId_Patient(8);
                     location.setId_Carer(IDCarer);
                     location.setCoordinateX(currentFence.getCoordinateX());
                     latestX=currentFence.getCoordinateX();
@@ -315,7 +315,7 @@ public class MapsActivity extends AppCompatActivity {
                     fence.setId_location(IDLocation);
                     fence.setRadius(currentFence.getRadius());
                     latestRadius=currentFence.getRadius();
-                    fence.setId_patient(121);
+                    fence.setId_patient(8);
                     m = 3;
                     break;
 
