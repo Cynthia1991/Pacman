@@ -83,6 +83,10 @@
             android:name=".Tab1ShowMapActivity"
             android:label="@string/title_activity_tab1_show_map" >
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
 </manifest>

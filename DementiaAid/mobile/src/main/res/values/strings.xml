@@ -9,4 +9,8 @@
     <string name="button_send">Set Fence</string>
     <string name="Done_Button">Done</string>
     <string name="title_activity_tab1_show_map">Tab1ShowMapActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="user_message">Username</string>
+    <string name="password_message">Password</string>
+    <string name="button_login">Login</string>
 </resources>
