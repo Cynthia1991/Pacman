@@ -1,12 +1,8 @@
-package pacman372.dementiaaid;
+package pacman372.dementiaaid.Notification;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 
 import com.pushbots.push.PBNotificationIntent;
@@ -15,10 +11,13 @@ import com.pushbots.push.utils.PBConstants;
 
 import java.util.HashMap;
 
+import pacman372.dementiaaid.EntityClasses.Notification;
+import pacman372.dementiaaid.Notification.Alarm;
+
 /**
  * Created by jieliang on 7/09/2015.
  */
-public class customHandler extends BroadcastReceiver {
+public class customHandler extends BroadcastReceiver   {
     private static final String TAG = "customHandler";
     @Override
     public void onReceive(Context context, Intent intent)

@@ -1,10 +1,10 @@
-package pacman372.dementiaaid;
+package pacman372.patient_client;
 
 import android.util.JsonWriter;
 import android.util.Log;
 
 /**
- * Created by fuqian on 1/09/2015.
+ * Created by chuan on 21/09/2015.
  */
 public class Location {
     public int id=-1;

@@ -1,14 +1,10 @@
-package pacman372.dementiaaid;
+package pacman372.dementiaaid.SetFence;
 
 import android.graphics.Color;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.SphericalUtil;
 
 /**
  * Created by Ramona on 23/08/2015.
@@ -65,6 +61,10 @@ public class FenceView {
     }
     public void setFence(CircularFence fence){
         this.fence = fence;
+
+    }
+    public CircularFence getFence(){
+        return fence;
 
     }
 

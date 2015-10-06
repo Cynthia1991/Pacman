@@ -1,4 +1,4 @@
-package pacman372.dementiaaid;
+package pacman372.dementiaaid.Notification;
 
 import android.app.Activity;
 import android.app.AlarmManager;

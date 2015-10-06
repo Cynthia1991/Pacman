@@ -2,7 +2,6 @@ package pacman372.dementiaaid;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +12,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import pacman372.dementiaaid.SetFence.CircularFence;
+import pacman372.dementiaaid.SetFence.FenceView;
 
 public class Tab1ShowMapActivity extends FragmentActivity {
 

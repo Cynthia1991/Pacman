@@ -4,6 +4,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
 
+import pacman372.dementiaaid.SetFence.CircularFence;
+import pacman372.dementiaaid.SetFence.FenceView;
+
 /**
  * Created by fuqian on 8/09/2015.
  */
@@ -43,8 +46,8 @@ public class FenceViewTest extends TestCase {
     public void testMapClicked() throws Exception {
         LatLng latLng = new LatLng(123.0000,123.0000);
         viewModel.mapClicked(latLng);
-        assertEquals(viewModel.fence.getCoordinateX(), latLng.latitude);
-        assertEquals(viewModel.fence.getCoordinateY(),latLng.longitude);
+        assertEquals(viewModel.getFence().getCoordinateX(), latLng.latitude);
+        assertEquals(viewModel.getFence().getCoordinateY(),latLng.longitude);
 
     }
 
@@ -52,7 +55,7 @@ public class FenceViewTest extends TestCase {
         Testfence.setCenter(latLng);
         viewModel.setFence(Testfence);
         viewModel.radiusChanged(13);
-        assertEquals(viewModel.fence.getRadius(),13);
+        assertEquals(viewModel.getFence().getRadius(),13);
 
     }
 

@@ -1,4 +1,4 @@
-package pacman372.dementiaaid;
+package pacman372.dementiaaid.SetFence;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -6,18 +6,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.JsonReader;
 import android.util.JsonWriter;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,14 +20,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.pushbots.push.Pushbots;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,13 +31,13 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+
+import pacman372.dementiaaid.EntityClasses.Carer;
+import pacman372.dementiaaid.EntityClasses.Fence;
+import pacman372.dementiaaid.EntityClasses.Location;
+import pacman372.dementiaaid.R;
+import pacman372.dementiaaid.TapMainActivity;
 
 public class MapsActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
@@ -56,7 +47,7 @@ public class MapsActivity extends AppCompatActivity {
     private SeekBar radiusSlider;
     private AlertDialog.Builder alertDialog;
     private CircularFence currentFence;
-    private Location newCenter;
+    private pacman372.dementiaaid.EntityClasses.Location newCenter;
     private String Location = null;
     private final static String locationUrl1="http://pacmandementiaaid.azurewebsites.net/api/Carer";
     private final static String locationUrl2="http://pacmandementiaaid.azurewebsites.net/api/Location";
@@ -194,11 +185,11 @@ public class MapsActivity extends AppCompatActivity {
         boolean radiusEnabled = viewModel.canChangeRadius();
         radiusSlider.setEnabled(radiusEnabled);
         if (radiusEnabled) {
-            radiusSlider.setProgress(viewModel.fence.radius);
+            radiusSlider.setProgress(viewModel.fence.getRadius());
         }
         if ((null != currentFence) && (null != viewModel.fence)) {
-            currentFence.setRadius(viewModel.fence.radius);
-            currentFence.setCenter(viewModel.fence.center);
+            currentFence.setRadius(viewModel.fence.getRadius());
+            currentFence.setCenter(viewModel.fence.getCenter());
         }
 
     }
@@ -308,7 +299,7 @@ public class MapsActivity extends AppCompatActivity {
                     break;
                 case 2:
                     //location.setID(ID);
-                    location.setId_Patient(121);
+                    location.setId_Patient(8);
                     location.setId_Carer(IDCarer);
                     location.setCoordinateX(currentFence.getCoordinateX());
                     latestX=currentFence.getCoordinateX();
@@ -324,7 +315,7 @@ public class MapsActivity extends AppCompatActivity {
                     fence.setId_location(IDLocation);
                     fence.setRadius(currentFence.getRadius());
                     latestRadius=currentFence.getRadius();
-                    fence.setId_patient(121);
+                    fence.setId_patient(8);
                     m = 3;
                     break;
 
