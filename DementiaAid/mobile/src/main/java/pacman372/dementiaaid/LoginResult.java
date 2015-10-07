@@ -27,6 +27,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import pacman372.dementiaaid.EntityClasses.Location;
+
 public class LoginResult extends AppCompatActivity {
 
     public final static String NAME_KEY = "pacman372.dementiaaid.LOGINNAME";
