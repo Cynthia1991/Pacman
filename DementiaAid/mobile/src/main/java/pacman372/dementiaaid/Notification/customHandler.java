@@ -11,12 +11,13 @@ import com.pushbots.push.utils.PBConstants;
 
 import java.util.HashMap;
 
+import pacman372.dementiaaid.EntityClasses.Notification;
 import pacman372.dementiaaid.Notification.Alarm;
 
 /**
  * Created by jieliang on 7/09/2015.
  */
-public class customHandler extends BroadcastReceiver {
+public class customHandler extends BroadcastReceiver   {
     private static final String TAG = "customHandler";
     @Override
     public void onReceive(Context context, Intent intent)

@@ -6,6 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+
+import pacman372.dementiaaid.EntityClasses.Entity;
+import pacman372.dementiaaid.EntityClasses.Patient;
+import pacman372.dementiaaid.PatientAlert;
+import pacman372.dementiaaid.ServerAidClasses.CarerRequest;
 import pacman372.dementiaaid.SetFence.CircularFence;
 import pacman372.dementiaaid.ServerAidClasses.DementiaAidServer;
 import pacman372.dementiaaid.ServerAidClasses.PatientSession;
