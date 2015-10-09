@@ -6,7 +6,7 @@ import android.util.Log;
 /**
  * Created by fuqian on 1/09/2015.
  */
-public class Fence {
+public class Fence implements IJsonStreamable {
     private int ID;
     private int id_location;
     private double radius;
