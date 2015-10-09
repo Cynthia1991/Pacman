@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import pacman372.dementiaaid.LoginActivity;
+
+import pacman372.dementiaaid.Login.LoginActivity;
 import pacman372.dementiaaid.R;
 
 /**
