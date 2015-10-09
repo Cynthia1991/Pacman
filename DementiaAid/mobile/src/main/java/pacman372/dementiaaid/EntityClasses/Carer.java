@@ -6,7 +6,7 @@ import android.util.Log;
 /**
  * Created by fuqian on 1/09/2015.
  */
-public class Carer {
+public class Carer implements IJsonStreamable {
     private int ID = -1;
     private String name;
     private int phone = -1;

@@ -78,7 +78,7 @@
             android:label="@string/title_activity_tab1_show_map" >
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Login.LoginActivity"
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -87,9 +87,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginResult"
+            android:name=".Login.LoginResult"
             android:label="@string/title_activity_login_result"
-            android:parentActivityName=".LoginActivity" >
+            android:parentActivityName=".Login.LoginActivity" >
         </activity>
     </application>
 

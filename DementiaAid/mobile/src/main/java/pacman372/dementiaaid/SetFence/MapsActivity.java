@@ -3,12 +3,14 @@ package pacman372.dementiaaid.SetFence;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonWriter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SeekBar;
@@ -35,7 +37,9 @@ import java.net.URL;
 
 import pacman372.dementiaaid.EntityClasses.Carer;
 import pacman372.dementiaaid.EntityClasses.Fence;
+import pacman372.dementiaaid.EntityClasses.IJsonStreamable;
 import pacman372.dementiaaid.EntityClasses.Location;
+import pacman372.dementiaaid.Login.carerVM;
 import pacman372.dementiaaid.R;
 import pacman372.dementiaaid.TapMainActivity;
 
@@ -44,14 +48,14 @@ public class MapsActivity extends AppCompatActivity {
     //private MobileServiceClient mClient;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private FenceView viewModel;
+    private Carer carer;
     private SeekBar radiusSlider;
     private AlertDialog.Builder alertDialog;
     private CircularFence currentFence;
     private pacman372.dementiaaid.EntityClasses.Location newCenter;
     private String Location = null;
-    private final static String locationUrl1="http://pacmandementiaaid.azurewebsites.net/api/Carer";
-    private final static String locationUrl2="http://pacmandementiaaid.azurewebsites.net/api/Location";
-    private final static String locationUrl3="http://pacmandementiaaid.azurewebsites.net/api/Fence";
+    private final static String locationURL="http://pacmandementiaaid.azurewebsites.net/api/Location";
+    private final static String fenceURL="http://pacmandementiaaid.azurewebsites.net/api/Fence";
     private int IDCarer=-1;
     private int IDLocation=-1;
     private double latestX=-1;
@@ -68,7 +72,9 @@ public class MapsActivity extends AppCompatActivity {
         viewModel = new FenceView();
         currentFence = new CircularFence();
         newCenter = new Location();
-
+        SharedPreferences userDetails = getSharedPreferences(getString(R.string.sharedPreferences),0);
+        carer = new Carer();
+        carer.setID(Integer.parseInt(userDetails.getString("userID","0")));
         //Pushbots.sharedInstance().init(this);
         viewModel = new FenceView();
 
@@ -202,7 +208,7 @@ public class MapsActivity extends AppCompatActivity {
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            new DownloadWebpageTask().execute(locationUrl1);
+            new DownloadWebpageTask().execute(locationURL);
         }else {
             alertDialog.setMessage("No network connection available.");
         }
@@ -244,25 +250,41 @@ public class MapsActivity extends AppCompatActivity {
 
             // params comes from the execute() call: params[0] is the url.
             try {
-                //Location location=new Location();
-                // JSONObject jsonObject=new JSONObject(downloadUrl(urls[0],1));
-                // location.id = jsonObject.getString("ID");
-                //location.id_Carer=jsonObject.getInt("ID");
-                downloadUrl(urls[0], 1);
-                downloadUrl(locationUrl2, 2);
-                downloadUrl(locationUrl3, 3);
+
+                //Set up the Location to be sent
+                Location location = new Location();
+                location.setId_Patient(121);
+                location.setId_Carer(carer.getID());
+                location.setCoordinateX(currentFence.getCoordinateX());
+                latestX=currentFence.getCoordinateX();
+                location.setCoordinateY(currentFence.getCoordinateY());
+                latestY=currentFence.getCoordinateY();
+                IDLocation = Integer.parseInt(downloadUrl(locationURL, location));
+                Log.d("Maps Error", "After Location Store "+IDLocation);
+
+
+                //Setup the Fence to be sent
+                if (IDLocation > -1) {
+                    Log.d("Maps Error", "In store Fence");
+                    Fence fence = new Fence();
+                    fence.setDescription("asd");
+                    fence.setId_carer(carer.getID());
+                    fence.setId_location(IDLocation);
+                    fence.setRadius(currentFence.getRadius());
+                    latestRadius = currentFence.getRadius();
+                    fence.setId_patient(121);
+                    downloadUrl(fenceURL, fence);
+
+                }
+                Log.d("Maps Error", "After Fence Store");
                 //alertDialog.setMessage("success");
-
-
-                //启动需要监听返回值的Activity，并设置请求码：requestCode
-
-
 
                 return "success";
 
 
             } catch (IOException e) {
-                return "Unable to retrieve web page. URL may be invalid.";
+                Log.d("Maps Error","Error after call",e);
+                return "Error";
             }
         }
         // onPostExecute displays the results of the AsyncTask.
@@ -277,50 +299,11 @@ public class MapsActivity extends AppCompatActivity {
             textView.setText(result);
         }
 
-
-
-        private String downloadUrl(String myurl, int n) throws IOException {
+        private String downloadUrl(String myurl, IJsonStreamable toSend) throws IOException {
             InputStream is = null;
             // Only display the first 500 characters of the retrieved
             // web page content.
-            int s = -1;
-            int m = -1;
-            Carer carer = new Carer();
-            Fence fence = new Fence();
-            Location location = new Location();
             int len = 500;
-            switch (n) {
-                case 1:
-                    carer.setAddress("Street");
-                    carer.setEmail("a@a.com");
-                    carer.setName("NotGeoff");
-                    carer.setPhone(786);
-                    m = 1;
-                    break;
-                case 2:
-                    //location.setID(ID);
-                    location.setId_Patient(121);
-                    location.setId_Carer(IDCarer);
-                    location.setCoordinateX(currentFence.getCoordinateX());
-                    latestX=currentFence.getCoordinateX();
-                    location.setCoordinateY(currentFence.getCoordinateY());
-                    latestY=currentFence.getCoordinateY();
-                    m = 2;
-                    //location.setId_Carer(carer.getID());
-                    break;
-                case 3:
-                    //fence.setID(ID);
-                    fence.setDescription("asd");
-                    fence.setId_carer(IDCarer);
-                    fence.setId_location(IDLocation);
-                    fence.setRadius(currentFence.getRadius());
-                    latestRadius=currentFence.getRadius();
-                    fence.setId_patient(121);
-                    m = 3;
-                    break;
-
-            }
-
 
             try {
                 URL url = new URL(myurl);
@@ -331,46 +314,30 @@ public class MapsActivity extends AppCompatActivity {
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
+
                 JsonWriter writer = new JsonWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
-                switch (m) {
-                    case 1:
-                        carer.serializeJson(writer);
-                        s = 1;
-                        break;
-                    case 2:
-                        location.serializeJson(writer);
-                        s = 2;
-                        break;
-                    case 3:
-                        fence.serializeJson(writer);
-                        break;
-                }
-                // carer.serializeJson(writer);
+                toSend.serializeJson(writer);
                 writer.close();
 
                 // Starts the query
                 conn.connect();
-                //int response = conn.getResponseCode();
-                is = conn.getInputStream();
-                // Convert the InputStream into a string
-                String contentAsString = readIt(is, len);
-                switch (s) {
-                    case 1:
-                        JSONObject jsonObject = new JSONObject(contentAsString);
-                        IDCarer = jsonObject.getInt("ID");
-
-                        break;
-                    case 2:
-                        JSONObject jsonObject1 = new JSONObject(contentAsString);
-                        IDLocation = jsonObject1.getInt("ID");
-                        break;
-
-
+                int response = conn.getResponseCode();
+                if ((response >= 200) || (response < 300)) {
+                    is = conn.getInputStream();
+                    // Convert the InputStream into a string
+                    String contentAsString = readIt(is, len);
+                    JSONObject jsonObject = new JSONObject(contentAsString);
+                    int ID = jsonObject.getInt("ID");
+                    Log.d("Maps Error", "Returned ID: "+ID);
+                    return Integer.toString(ID);
+                } else {
+                    Log.d("Maps Error", "Failed Web Call: " + response);
+                    String weberror = readIt(conn.getErrorStream(),500);
+                    Log.d("Maps Error", "Error stream: "+weberror);
+                    return "Error";
                 }
-
-                return contentAsString;
-
             } catch (JSONException e) {
+                Log.d("Maps Error", "Json error",e);
                 return "json error";
             } finally {
                 if (is != null) {
