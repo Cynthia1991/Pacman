@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import pacman372.dementiaaid.CreateAccount.CreateAccountActivity;
 import pacman372.dementiaaid.R;
 import pacman372.dementiaaid.TapMainActivity;
 
@@ -84,8 +85,11 @@ public class LoginActivity extends AppCompatActivity {
             alertDialog.show();
             Log.d(ERROR_KEY, "No Network Connection");
         }
+    }
 
-
-
+    public void StartRegister(View view)
+    {
+        Intent intent= new Intent(this, CreateAccountActivity.class);
+        startActivity(intent);
     }
 }

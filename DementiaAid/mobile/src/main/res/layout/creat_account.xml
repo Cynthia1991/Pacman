@@ -33,6 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Create Account"
-        android:onClick="TryCreatNewAccount"/>
+        android:onClick="onCreateAccountClicked"/>
 
 </LinearLayout>

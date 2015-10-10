@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,13 +15,13 @@ import pacman372.dementiaaid.R;
 /**
  * Created by jieliang on 8/10/2015.
  */
-public class CreatAccountActivity extends Activity implements CreateAccountView {
+public class CreateAccountActivity extends Activity implements CreateAccountView {
 
     EditText new_username;
     EditText new_password;
     EditText confirm_new_password;
     CreateAccountPr createAccountPr;
-
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +30,18 @@ public class CreatAccountActivity extends Activity implements CreateAccountView 
         new_password=(EditText)findViewById(R.id.new_password);
         new_username=(EditText)findViewById(R.id.new_username);
         confirm_new_password=(EditText)findViewById(R.id.newpassword_confirm);
-      createAccountPr=  new CreateAccountPr(this,new CreateAccount());
+       createAccountPr=  new CreateAccountPr(this,new CreateAccount());
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                createAccountPr.OnCreateAccountClicked(v);
+            }
+    });
 
     }
-    public void onCreateAccountClicked(View view)
-    {
-      createAccountPr.OnCreateAccountClicked();
 
 
 
-    }
+
 
 
     @Override
@@ -67,7 +70,7 @@ public class CreatAccountActivity extends Activity implements CreateAccountView 
     }
 
     @Override
-    public void startLoginActivity() {
+    public void startLoginActivity( View view) {
 
         Intent intent=new Intent(this, LoginActivity.class);
        startActivity(intent);

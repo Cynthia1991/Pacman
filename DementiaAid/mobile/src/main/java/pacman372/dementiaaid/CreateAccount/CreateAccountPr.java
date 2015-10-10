@@ -1,5 +1,9 @@
 package pacman372.dementiaaid.CreateAccount;
 
+import android.content.Intent;
+import android.view.View;
+
+import pacman372.dementiaaid.Login.LoginActivity;
 import pacman372.dementiaaid.R;
 
 /**
@@ -15,7 +19,7 @@ public class CreateAccountPr
          this.createAccountView=createAccountView;
          this.createAccount=createAccount;
     }
-    public void OnCreateAccountClicked()
+    public void OnCreateAccountClicked(View view)
     {
        String new_username=createAccountView.getNewUsername();
         String new_password=createAccountView.getNewPassWord();
@@ -26,14 +30,15 @@ public class CreateAccountPr
             return;
         }
 
-        if(new_password!=password_confirm)
+        if(!new_password.equals(password_confirm))
         {
             createAccountView.showEmptyError(R.string.password_mismatch_error);
         }
-        boolean StoreSuccess= createAccount.StoreDetail(new_username,new_password);
+        boolean StoreSuccess= createAccount.Create(new_username, new_password);
         if(StoreSuccess)
         {
-            createAccountView.startLoginActivity();
+
+            createAccountView.startLoginActivity(view);
             return;
 
         }

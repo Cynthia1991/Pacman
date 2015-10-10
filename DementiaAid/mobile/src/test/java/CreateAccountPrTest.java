@@ -1,3 +1,5 @@
+import android.view.View;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +12,7 @@ import java.util.Collection;
 import pacman372.dementiaaid.CreateAccount.CreateAccount;
 import pacman372.dementiaaid.CreateAccount.CreateAccountPr;
 import pacman372.dementiaaid.CreateAccount.CreateAccountView;
+import pacman372.dementiaaid.Login.LoginActivity;
 import pacman372.dementiaaid.R;
 
 import static org.mockito.Mockito.verify;
@@ -27,7 +30,8 @@ public class CreateAccountPrTest {
     private CreateAccountView createaccountview;
     @Mock
     private CreateAccount createaccount;
-
+    @Mock
+    private View loginActivity;
     @Before
     public void setUp() throws Exception {
         pr =new CreateAccountPr(createaccountview,createaccount);
@@ -78,7 +82,7 @@ public class CreateAccountPrTest {
         when(createaccountview.getConfirmPassword()).thenReturn(("aaa"));
         pr.OnCreateAccountClicked();
         when(createaccount.Create("uio", "aaa")).thenReturn(true);
-       verify(createaccountview).startLoginActivity();
+       verify(createaccountview).startLoginActivity(loginActivity);
     }
 
 }
