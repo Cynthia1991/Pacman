@@ -3,7 +3,7 @@ package pacman372.dementiaaid.SetFence;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
- * Created by Ramona on 23/08/2015.
+ * Created by Chong Lu on 23/08/2015.
  */
 public class CircularFence {
     public LatLng getCenter() {

@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
- * Created by Ramona on 23/08/2015.
+ * Created by Chong Lu on 23/08/2015.
  */
 public class FenceView {
     protected CircularFence fence;

@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -13,6 +16,8 @@ import android.util.JsonWriter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -22,6 +27,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,14 +42,18 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import pacman372.dementiaaid.EntityClasses.Carer;
 import pacman372.dementiaaid.EntityClasses.Fence;
 import pacman372.dementiaaid.EntityClasses.IJsonStreamable;
 import pacman372.dementiaaid.EntityClasses.Location;
+import pacman372.dementiaaid.EntityClasses.PolygonalFence;
 import pacman372.dementiaaid.Login.carerVM;
 import pacman372.dementiaaid.R;
 import pacman372.dementiaaid.TapMainActivity;
+
 
 public class MapsActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
@@ -50,8 +62,12 @@ public class MapsActivity extends AppCompatActivity {
     private FenceView viewModel;
     private Carer carer;
     private SeekBar radiusSlider;
+    private RadioButton circularRadioButton;
+    private RadioButton polygonRadioButton;
+    private RadioGroup fenceRadioGroup;
     private AlertDialog.Builder alertDialog;
     private CircularFence currentFence;
+    private PolygonalFence pFence;
     private pacman372.dementiaaid.EntityClasses.Location newCenter;
     private String Location = null;
     private final static String locationURL="http://pacmandementiaaid.azurewebsites.net/api/Location";
@@ -71,10 +87,11 @@ public class MapsActivity extends AppCompatActivity {
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         viewModel = new FenceView();
         currentFence = new CircularFence();
+        pFence = new PolygonalFence();
         newCenter = new Location();
         SharedPreferences userDetails = getSharedPreferences(getString(R.string.sharedPreferences),0);
         carer = new Carer();
-        carer.setID(Integer.parseInt(userDetails.getString("userID","0")));
+        carer.setID(Integer.parseInt(userDetails.getString("userID", "0")));
         //Pushbots.sharedInstance().init(this);
         viewModel = new FenceView();
 
@@ -97,6 +114,19 @@ public class MapsActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+
+        fenceRadioGroup = (RadioGroup) findViewById(R.id.fenceRadioGroup);
+        circularRadioButton = (RadioButton)findViewById(R.id.circularRadioButton);
+        polygonRadioButton = (RadioButton) findViewById(R.id. polygonRadioButton);
+        fenceRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                syncFromModel();
             }
         });
 
@@ -165,7 +195,12 @@ public class MapsActivity extends AppCompatActivity {
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                viewModel.mapClicked(latLng);
+                if (circularRadioButton.isChecked()) {
+                    viewModel.mapClicked(latLng);
+                }
+                else if (polygonRadioButton.isChecked()) {
+                    pFence.getPoints().add(latLng);
+                }
                 syncFromModel();
             }
         });
@@ -173,29 +208,50 @@ public class MapsActivity extends AppCompatActivity {
 
     private void syncFromModel() {
         mMap.clear();
-        MarkerOptions markerOptions = viewModel.getCenterOptions();
-        if (markerOptions != null) {
-            mMap.addMarker(markerOptions);
-        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-27.4667, 153.0333)));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-        CircleOptions circleOptions = viewModel.getPerimeterOptions();
-        if (circleOptions != null) {
-            mMap.addCircle(circleOptions);
-        }
+        if (circularRadioButton.isChecked()){
+            MarkerOptions markerOptions = viewModel.getCenterOptions();
+            if (markerOptions != null) {
+                mMap.addMarker(markerOptions);
+            }
 
-        LatLng cameraLocation = viewModel.getCameraLocation();
-        if (!mMap.getProjection().getVisibleRegion().latLngBounds.contains(cameraLocation)) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(cameraLocation));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            CircleOptions circleOptions = viewModel.getPerimeterOptions();
+            if (circleOptions != null) {
+                mMap.addCircle(circleOptions);
+            }
+
+            LatLng cameraLocation = viewModel.getCameraLocation();
+            if (!mMap.getProjection().getVisibleRegion().latLngBounds.contains(cameraLocation)) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(cameraLocation));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            }
+
+            boolean radiusEnabled = viewModel.canChangeRadius();
+            radiusSlider.setEnabled(radiusEnabled);
+            if (radiusEnabled) {
+                radiusSlider.setProgress(viewModel.fence.getRadius());
+            }
+            if ((null != currentFence) && (null != viewModel.fence)) {
+                currentFence.setRadius(viewModel.fence.getRadius());
+                currentFence.setCenter(viewModel.fence.getCenter());
+            }
         }
-        boolean radiusEnabled = viewModel.canChangeRadius();
-        radiusSlider.setEnabled(radiusEnabled);
-        if (radiusEnabled) {
-            radiusSlider.setProgress(viewModel.fence.getRadius());
-        }
-        if ((null != currentFence) && (null != viewModel.fence)) {
-            currentFence.setRadius(viewModel.fence.getRadius());
-            currentFence.setCenter(viewModel.fence.getCenter());
+        else if (polygonRadioButton.isChecked()){
+            if (pFence != null && pFence.getPoints().size() > 0){
+
+                List<LatLng> fencePoints = pFence.getPoints();
+                for (LatLng point:fencePoints) {
+                    mMap.addMarker(new MarkerOptions().position(point));
+                }
+                //line = new PolylineOptions();
+                //line.addAll(fencePoints).width(5).color(Color.RED);
+                //mMap.addPolyline(line);
+                PolygonOptions po = new PolygonOptions().addAll(fencePoints).strokeWidth(3).strokeColor(Color.RED);
+                 mMap.addPolygon(po);
+            }
+
         }
 
     }
