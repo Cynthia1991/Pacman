@@ -52,6 +52,8 @@ public class carerVM {
         } catch(Exception e) { }
 
         if (loggedin) {
+            loggedIn();
+            new DownloadWebpageTask().execute("http://pacmandementiaaid.azurewebsites.net/api/Login/" + uName + "/" + uPass);
             return true;
         } else {
             return false;
@@ -90,7 +92,6 @@ public class carerVM {
             if (loggedin)
             {
                 returnedCarerString = result;
-                loggedIn();
             } else {
                 //TextView textView=(TextView)findViewById(R.id.login_result_text);
                 //textView.setText("Please go back, Login Failed");
