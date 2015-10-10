@@ -91,6 +91,14 @@
             android:label="@string/title_activity_login_result"
             android:parentActivityName=".Login.LoginActivity" >
         </activity>
+        <activity
+              android:name=".CreateAccount.CreateAccountActivity"
+              android:label="CreateAccountAcitivity">
+        </activity>
+        <activity
+            android:name=".CreateAccount.CreateAccount"
+            android:label="CreateAccountAcitivity">
+        </activity>
     </application>
 
 </manifest>

@@ -21,4 +21,5 @@
     <string name="password_mismatch_error"> password dont match</string>
     <string name="empty_error">Can\'t be empty</string>
     <string name="create_failed">create account failed</string>
+    <string name="NetworkError">no net connection</string>
 </resources>
