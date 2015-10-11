@@ -1,7 +1,12 @@
 package pacman372.dementiaaid.CreateAccount;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +15,7 @@ import android.widget.Toast;
 
 
 import pacman372.dementiaaid.Login.LoginActivity;
+import pacman372.dementiaaid.MyApplication;
 import pacman372.dementiaaid.R;
 
 /**
@@ -30,10 +36,13 @@ public class CreateAccountActivity extends Activity implements CreateAccountView
         new_password=(EditText)findViewById(R.id.new_password);
         new_username=(EditText)findViewById(R.id.new_username);
         confirm_new_password=(EditText)findViewById(R.id.newpassword_confirm);
+        button=(Button)findViewById(R.id.creataccount);
+
        createAccountPr=  new CreateAccountPr(this,new CreateAccount());
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                createAccountPr.OnCreateAccountClicked(v);
+                if(connectionError(tryconnection()));
+                {createAccountPr.OnCreateAccountClicked(v);}
             }
     });
 
@@ -60,20 +69,52 @@ public class CreateAccountActivity extends Activity implements CreateAccountView
     }
 
     @Override
-    public void showMismatchError(int resId) {
-         new_password.setError(getString(resId));
+    public Boolean tryconnection() {
+        ConnectivityManager conmag=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info=conmag.getActiveNetworkInfo();
+        return info.isConnected();
+
     }
 
     @Override
-    public void showEmptyError(int resid) {
-        new_username.setError(getString(resid));
+    public Boolean connectionError(Boolean th) {
+        if(!th)
+        {
+            Toast.makeText(this,"badconne",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else
+        {
+            Toast.makeText(this,"good conn",Toast.LENGTH_LONG).show();
+            return true;
+        }
     }
 
+    @Override
+    public void showMismatchError(int resId) {
+         Toast.makeText(this,getString(resId), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showEmptyError1(int resid) {
+        new_username.setError(getString(resid));
+
+    }
+    @Override
+    public void showEmptyError2(int resid) {
+
+        new_password.setError(getString(resid));
+    }
+    @Override
+      public void showEmptyError3(int resid) {
+
+        confirm_new_password.setError(getString(resid));
+    }
     @Override
     public void startLoginActivity( View view) {
 
         Intent intent=new Intent(this, LoginActivity.class);
-       startActivity(intent);
+        startActivity(intent);
     }
 
     @Override
@@ -82,4 +123,6 @@ public class CreateAccountActivity extends Activity implements CreateAccountView
         Toast.makeText(this,getString(resId),Toast.LENGTH_LONG).show();
 
     }
+
+
 }

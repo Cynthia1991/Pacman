@@ -13,9 +13,12 @@ public interface CreateAccountView {
     String  getConfirmPassword();
 
     String getNewUsername();
-
+    Boolean tryconnection();
+    Boolean connectionError(Boolean th);
     void showMismatchError(int resId);
-    void showEmptyError(int resid);
+    void showEmptyError1(int resid);
+    void showEmptyError2(int resid);
+    void showEmptyError3(int resid);
 
     void startLoginActivity(View view);
 

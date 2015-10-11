@@ -42,27 +42,27 @@ public class CreateAccountPrTest {
       when(createaccountview.getNewUsername()).thenReturn("uio");
       when(createaccountview.getNewPassWord()).thenReturn("aaa");
       when(createaccountview.getConfirmPassword()).thenReturn(("ccc"));
-        pr.OnCreateAccountClicked();
+        pr.OnCreateAccountClicked(loginActivity);
       verify(createaccountview).showMismatchError(R.string.password_mismatch_error);
     }
 
     @Test
         public void showWhenUsernameIsEmpty() throws Exception {
         when(createaccountview.getNewUsername()).thenReturn("");
-        pr.OnCreateAccountClicked();
-        verify(createaccountview).showEmptyError(R.string.empty_error);
+        pr.OnCreateAccountClicked(loginActivity);
+        verify(createaccountview).showEmptyError1(R.string.empty_error);
     }
     @Test
     public void showWhenPasswordIsEmpty() throws Exception {
         when(createaccountview.getNewPassWord()).thenReturn("");
-        pr.OnCreateAccountClicked();
-        verify(createaccountview).showEmptyError(R.string.empty_error);
+        pr.OnCreateAccountClicked(loginActivity);
+        verify(createaccountview).showEmptyError2(R.string.empty_error);
     }
     @Test
     public void showWhenConfirmIsEmpty() throws Exception {
         when(createaccountview.getConfirmPassword()).thenReturn("");
-        pr.OnCreateAccountClicked();
-        verify(createaccountview).showEmptyError(R.string.empty_error);
+        pr.OnCreateAccountClicked(loginActivity);
+        verify(createaccountview).showEmptyError3(R.string.empty_error);
     }
 
     @Test
@@ -70,8 +70,8 @@ public class CreateAccountPrTest {
         when(createaccountview.getNewUsername()).thenReturn("uio");
         when(createaccountview.getNewPassWord()).thenReturn("aaa");
         when(createaccountview.getConfirmPassword()).thenReturn(("aaa"));
-        pr.OnCreateAccountClicked();
-        when(createaccount.Create("uio", "aaa")).thenReturn(true);
+        pr.OnCreateAccountClicked(loginActivity);
+        //when(createaccount.Create("uio", "aaa")).thenReturn(true);
       verify(createaccountview).ShowFailedError(R.string.create_failed);
     }
 
@@ -80,8 +80,8 @@ public class CreateAccountPrTest {
         when(createaccountview.getNewUsername()).thenReturn("uio");
         when(createaccountview.getNewPassWord()).thenReturn("aaa");
         when(createaccountview.getConfirmPassword()).thenReturn(("aaa"));
-        pr.OnCreateAccountClicked();
-        when(createaccount.Create("uio", "aaa")).thenReturn(true);
+        pr.OnCreateAccountClicked(loginActivity);
+       // when(createaccount.Create("uio", "aaa")).thenReturn(true);
        verify(createaccountview).startLoginActivity(loginActivity);
     }
 
