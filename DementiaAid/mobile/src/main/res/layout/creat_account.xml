@@ -9,7 +9,8 @@
     android:orientation="vertical"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
-    tools:context="pacman372.dementiaaid.CreateAccount.CreateAccount">
+    tools:context="pacman372.dementiaaid.CreateAccount.CreateAccount"
+    android:weightSum="1">
 
     <EditText android:id="@+id/new_username"
         android:layout_width="match_parent"
@@ -36,4 +37,20 @@
         android:text="Create Account"
         android:onClick="onCreateAccountClicked"/>
 
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:text="RETURN TO LOGIN"
+        android:id="@+id/gobacktologin"
+        android:onClick="BackToLogin"
+        />
+
+    <TextView
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/error"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.10" />
 </LinearLayout>

@@ -112,7 +112,6 @@ public class CreateAccountActivity extends Activity implements CreateAccountView
     }
     @Override
     public void startLoginActivity( View view) {
-
         Intent intent=new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
@@ -123,6 +122,11 @@ public class CreateAccountActivity extends Activity implements CreateAccountView
         Toast.makeText(this,getString(resId),Toast.LENGTH_LONG).show();
 
     }
+    public void BackToLogin(View view)
+    {
+        Intent intent=new Intent(this,LoginActivity.class);
+        startActivity(intent);
 
+    }
 
 }

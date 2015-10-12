@@ -30,7 +30,7 @@ public class CreateAccountPr
 {
   private CreateAccountView createAccountView;
     private CreateAccount createAccount;
-    private String url="http://pacmandementiaaid.azurewebsites.net/api/Location";
+    private String url="http://pacmandementiaaid.azurewebsites.net/api/Carer";
 
 
     public CreateAccountPr(CreateAccountView createAccountView,CreateAccount createAccount)
@@ -63,17 +63,7 @@ public class CreateAccountPr
             createAccountView.showMismatchError(R.string.password_mismatch_error);
             return;
         }
-        Boolean StoreSuccess= createAccount.MakeRequest(new_username,password_confirm);
-       if(StoreSuccess)
-       {Toast.makeText(view.getContext(),"stored",Toast.LENGTH_LONG).show();
-        createAccountView.startLoginActivity(view);}
-        else
-       {
-           Toast.makeText(view.getContext(),"store failed",Toast.LENGTH_LONG).show();
-
-       }
-
-
+          new CreateAccount().execute(url,new_username, password_confirm);
     }
 
 
