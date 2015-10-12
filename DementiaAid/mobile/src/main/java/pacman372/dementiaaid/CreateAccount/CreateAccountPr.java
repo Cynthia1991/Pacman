@@ -63,10 +63,15 @@ public class CreateAccountPr
             createAccountView.showMismatchError(R.string.password_mismatch_error);
             return;
         }
-        String StoreSuccess= createAccount.makeRequest(url,new_username+""+password_confirm);
+        Boolean StoreSuccess= createAccount.MakeRequest(new_username,password_confirm);
+       if(StoreSuccess)
+       {Toast.makeText(view.getContext(),"stored",Toast.LENGTH_LONG).show();
+        createAccountView.startLoginActivity(view);}
+        else
+       {
+           Toast.makeText(view.getContext(),"store failed",Toast.LENGTH_LONG).show();
 
-        Toast.makeText(view.getContext(),StoreSuccess,Toast.LENGTH_LONG).show();
-        createAccountView.startLoginActivity(view);
+       }
 
 
     }

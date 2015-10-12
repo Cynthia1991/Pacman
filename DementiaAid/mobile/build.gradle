@@ -30,7 +30,9 @@ android {
     }
     sourceSets { main { java.srcDirs = ['src/main/java'] } }
 }
-
+repositories {
+    mavenCentral()
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     wearApp project(':wear')
@@ -41,6 +43,6 @@ dependencies {
    testCompile "org.mockito:mockito-core:1.+"
     //compile 'com.pushbots:pushbots-lib:2.0.13@aar'
     compile 'com.android.support:support-v4:22.0.0'
-
+    compile 'com.microsoft.azure.android:azure-storage-android:0.7.0@aar'
 
 }
