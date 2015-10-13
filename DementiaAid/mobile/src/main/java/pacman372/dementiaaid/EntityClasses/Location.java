@@ -6,8 +6,8 @@ import android.util.Log;
 /**
  * Created by fuqian on 1/09/2015.
  */
-public class Location {
-    public int id=-1;
+public class Location implements IJsonStreamable {
+    public int ID=-1;
     public double coordinates_x=-1;
     public double coordinates_y=-1;
     public int id_Patient;
@@ -16,18 +16,18 @@ public class Location {
 
     }
     public void Location(int id,double x,double y,int id_P,int id_C){
-        this.id = id;
+        this.ID = id;
         this.coordinates_x = x;
         this.coordinates_y = y;
         this.id_Patient = id_P;
         this.id_Carer = id_C;
     }
     public int getID() {
-        return id;
+        return ID;
     }
 
     public void setID(int id) {
-        this.id = id;
+        this.ID = id;
     }
     public Double getCoordinateX() {
         return coordinates_x;
@@ -64,9 +64,9 @@ public class Location {
         try {
             jw.beginObject();
             if (getID() == -1) {
-                jw.name("id").nullValue();
+                jw.name("ID").nullValue();
             } else {
-                jw.name("id").value(getID());
+                jw.name("ID").value(getID());
             }
             if (getCoordinateY() == -1 ){
                 jw.name("coordinates_y").nullValue();
