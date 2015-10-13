@@ -19,30 +19,12 @@ import pacman372.dementiaaid.SetFence.FenceView;
 public class Tab1ShowMapActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private FenceView viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab1_show_map);
-
-
-        Intent intent =getIntent();
-        double x=0,y=0;
-        int radius=0;
-        double latestX=intent.getDoubleExtra("x1",x);
-        double latestY=intent.getDoubleExtra("y1",y);
-        int latestRadius=intent.getIntExtra("radius1",radius);
-
-        viewModel = new FenceView();
-        LatLng centerLocation = new LatLng(latestX,latestY);
-        CircularFence newFence = new CircularFence();
-        newFence.setCenter(centerLocation);
-        newFence.setRadius(latestRadius);
-        viewModel.setFence(newFence);
-
         setUpMapIfNeeded();
-        syncFromModel();
     }
 
     @Override
@@ -86,39 +68,9 @@ public class Tab1ShowMapActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                viewModel.mapClicked(latLng);
-                syncFromModel();
-            }
-        });
-    }
-
-    private void syncFromModel() {
-        mMap.clear();
-        MarkerOptions markerOptions = viewModel.getCenterOptions();
-        if (markerOptions != null) {
-            mMap.addMarker(markerOptions);
-        }
-
-        CircleOptions circleOptions = viewModel.getPerimeterOptions();
-        if (circleOptions != null) {
-            mMap.addCircle(circleOptions);
-        }
-
-        LatLng cameraLocation = viewModel.getCameraLocation();
-        if (!mMap.getProjection().getVisibleRegion().latLngBounds.contains(cameraLocation)) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(cameraLocation));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        }
-        boolean radiusEnabled = viewModel.canChangeRadius();
-        /*radiusSlider.setEnabled(radiusEnabled);
-        if (radiusEnabled) {
-            radiusSlider.setProgress(viewModel.fence.radius);
-        }*/
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

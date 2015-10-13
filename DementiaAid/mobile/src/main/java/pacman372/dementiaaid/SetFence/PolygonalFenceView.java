@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
+import pacman372.dementiaaid.EntityClasses.FencePoint;
 import pacman372.dementiaaid.EntityClasses.PolygonalFence;
 
 /**
@@ -17,6 +18,6 @@ public class PolygonalFenceView {
         if (pFence == null) {
             pFence = new PolygonalFence();
         }
-        pFence.getPoints().add(latLng);
+        pFence.getPoints().add(new FencePoint(latLng));
     }
 }

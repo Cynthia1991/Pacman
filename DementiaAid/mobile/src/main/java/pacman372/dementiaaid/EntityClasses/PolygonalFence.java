@@ -1,39 +1,26 @@
 package pacman372.dementiaaid.EntityClasses;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Chong Lu on 10/10/2015.
- */
 public class PolygonalFence {
-    protected List<LatLng> points;
-    protected int id_carer;
-    protected int id_patient;
+
+    @SerializedName("FencePoints")
+    protected List<FencePoint> points;
+    @SerializedName("CarerID")
+    public int carerID;
+    @SerializedName("PatientID")
+    public int patientID;
 
     public PolygonalFence(){
-        points = new ArrayList<LatLng>();
+        points = new ArrayList<FencePoint>();
     }
 
 
-    public List<LatLng> getPoints() {
+    public List<FencePoint> getPoints() {
         return this.points;
-    }
-    public int getId_carer() {
-        return id_carer;
-    }
-
-    public void setId_carer(int id_carer) {
-        this.id_carer = id_carer;
-    }
-
-    public int getId_patient() {
-        return id_patient;
-    }
-
-    public void setId_patient(int id_patient) {
-        this.id_patient = id_patient;
     }
 }
