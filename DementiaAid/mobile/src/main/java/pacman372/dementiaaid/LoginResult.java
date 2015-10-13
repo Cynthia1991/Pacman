@@ -1,4 +1,4 @@
-package pacman372.dementiaaid;
+package pacman372.dementiaaid.Login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +28,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import pacman372.dementiaaid.EntityClasses.Location;
+import pacman372.dementiaaid.R;
+import pacman372.dementiaaid.TapMainActivity;
 
 public class LoginResult extends AppCompatActivity {
 
