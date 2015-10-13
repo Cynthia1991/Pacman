@@ -9,7 +9,33 @@
     android:orientation="vertical"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
-    tools:context="pacman372.dementiaaid.LoginActivity">
+    tools:context="pacman372.dementiaaid.LoginActivity"
+    android:weightSum="1"
+    android:background="#fffaef">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="204dp">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3"
+            android:src="@drawable/s"
+            android:adjustViewBounds="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Welcome Back"
+        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal" />
 
     <EditText android:id="@+id/username_edit"
         android:layout_width="match_parent"
@@ -29,5 +55,19 @@
         android:layout_gravity="center"
         android:text="@string/button_login"
         android:onClick="tryLogin"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="IFN372 Pacman"
+            android:id="@+id/textView"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 </LinearLayout>
