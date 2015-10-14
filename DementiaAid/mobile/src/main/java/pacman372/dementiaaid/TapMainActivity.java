@@ -9,6 +9,7 @@ import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +30,7 @@ public class TapMainActivity extends ActivityGroup {
     private PendingIntent alarmIntent;
     private  Context context;
     private ProgressBar bar;
-
+    public   String msg;
 
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     //private MobileServiceClient mClient;
@@ -42,6 +43,8 @@ public class TapMainActivity extends ActivityGroup {
         setContentView(R.layout.activity_tap_main);
         Pushbots.sharedInstance().init(this);
         Pushbots.sharedInstance().register();
+       msg= Pushbots.sharedInstance().regID();
+        Log.d("pushid",msg);
         TabHost m = (TabHost)findViewById(R.id.tabhost);
         m.setup(this.getLocalActivityManager());
         //m.setup();

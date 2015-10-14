@@ -1,8 +1,11 @@
 package pacman372.dementiaaid.CreateAccount;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.pushbots.push.Pushbots;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -65,6 +68,9 @@ public class CreateAccountPr
         }
         //String StoreSuccess= createAccount.makeRequest(url,new_username,password_confirm);
        new  CreateAccount().execute(url,new_username,new_password);
+       // Pushbots.sharedInstance().register();
+
+        //Log.d("push_id", Pushbots.sharedInstance().regID());
         //Toast.makeText(view.getContext(),StoreSuccess,Toast.LENGTH_LONG).show();
         //createAccountView.startLoginActivity(view);
 

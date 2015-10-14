@@ -15,18 +15,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="@string/new_username_msg" />
+        android:hint="@string/new_username_msg"
+        android:text="12345" />
 
     <EditText android:id="@+id/new_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="@string/new_password" />
+        android:hint="@string/new_password"
+        android:text="123456" />
     <EditText android:id="@+id/newpassword_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="@string/confirm_password" />
+        android:hint="@string/confirm_password"
+        android:text="123456" />
 
     <Button
         android:id="@+id/creataccount"

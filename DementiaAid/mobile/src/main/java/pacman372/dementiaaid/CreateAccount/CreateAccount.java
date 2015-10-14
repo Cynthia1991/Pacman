@@ -28,6 +28,7 @@ import java.util.Collections;
 
 import pacman372.dementiaaid.Login.LoginActivity;
 import pacman372.dementiaaid.MyApplication;
+import pacman372.dementiaaid.TapMainActivity;
 
 /**
  * Created by jieliang on 8/10/2015.
@@ -38,11 +39,13 @@ class Event {
     private String name;
     private Integer phone;
     private String device_id;
-    public Event(String username, Integer password,String deviceid)
+    //private String iid;
+    public Event(String username, Integer password)
     {
         this.name = username;
         this.phone = password;
-        this.device_id=deviceid;
+        //this.device_id=deviceid;
+
     }
 }
 public class CreateAccount extends AsyncTask<String,Void,Boolean>
@@ -75,9 +78,10 @@ public class CreateAccount extends AsyncTask<String,Void,Boolean>
         String data ;
         String result = null;
         Collection ser=new ArrayList();
-        ser.add(new Event(inputs[1],Integer.parseInt(inputs[2]), Pushbots.sharedInstance().getSenderId()));
+        ser.add(new Event(inputs[1],Integer.parseInt(inputs[2])));
         Gson gson=new Gson();
         data= gson.toJson(ser);
+
 
 
         try {
