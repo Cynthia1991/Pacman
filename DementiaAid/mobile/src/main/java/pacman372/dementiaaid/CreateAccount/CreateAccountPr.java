@@ -36,7 +36,7 @@ public class CreateAccountPr
   private CreateAccountView createAccountView;
     private CreateAccount createAccount;
     private String url="http://pacmandementiaaid.azurewebsites.net/api/Carer";
-
+     public Context context;
 
     public CreateAccountPr(CreateAccountView createAccountView,CreateAccount createAccount)
     {
@@ -45,6 +45,7 @@ public class CreateAccountPr
     }
     public void OnCreateAccountClicked(View view,String device_id)
     {
+
         String new_username=createAccountView.getNewUsername();
         String new_password=createAccountView.getNewPassWord();
         String password_confirm=createAccountView.getConfirmPassword();
@@ -71,12 +72,12 @@ public class CreateAccountPr
         //String StoreSuccess= createAccount.makeRequest(url,new_username,password_confirm);
 
 
-       new  CreateAccount().execute(url,new_username,new_password,device_id);
+       new  CreateAccount().execute(url, new_username, new_password, device_id);
        // Pushbots.sharedInstance().register();
 
         //Log.d("push_id", Pushbots.sharedInstance().regID());
         //Toast.makeText(view.getContext(),StoreSuccess,Toast.LENGTH_LONG).show();
-        //createAccountView.startLoginActivity(view);
+        createAccountView.startLoginActivity(view);
 
 
     }

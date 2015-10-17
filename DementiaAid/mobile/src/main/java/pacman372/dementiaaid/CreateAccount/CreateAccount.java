@@ -1,5 +1,6 @@
 package pacman372.dementiaaid.CreateAccount;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -50,25 +52,30 @@ class Event {
 }
 public class CreateAccount extends AsyncTask<String,Void,Boolean>
 {
+
+
+   Context context;
+
+/*
     @Override
     protected void onPostExecute(Boolean aBoolean) {
         super.onPostExecute(aBoolean);
 
+
         if(aBoolean)
         {
-            Intent intent=new Intent(MyApplication.getAppContext(), LoginActivity.class);
-            MyApplication.getAppContext().startActivity(intent);
+            //Toast.makeText(MyApplication.getAppContext(),"jkljlkjlkfjaslkdjf",Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(context.getApplicationContext(), LoginActivity.class);
+
+            context.startActivity(intent);
+
+
+
 
         }
     }
+*/
 
-    public CreateAccount()
-{
-
-
-
-
-    }
 
     @Override
     protected Boolean doInBackground(String... inputs) {
@@ -80,9 +87,9 @@ public class CreateAccount extends AsyncTask<String,Void,Boolean>
         String data ;
         String result = null;
         Collection ser=new ArrayList();
-        ser.add(new Event(inputs[1],Integer.parseInt(inputs[2]),inputs[3]));
+       // ser.add();
         Gson gson=new Gson();
-        data= gson.toJson(ser);
+        data= gson.toJson(new Event(inputs[1],Integer.parseInt(inputs[2]),inputs[3]));
 
 
 
