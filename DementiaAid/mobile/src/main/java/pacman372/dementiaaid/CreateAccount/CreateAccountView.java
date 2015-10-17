@@ -23,4 +23,7 @@ public interface CreateAccountView {
     void startLoginActivity(View view);
 
     void ShowFailedError(int resId);
+
+    String device_tag();
+
 }

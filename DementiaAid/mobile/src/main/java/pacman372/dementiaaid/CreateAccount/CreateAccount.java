@@ -40,11 +40,11 @@ class Event {
     private Integer phone;
     private String device_id;
     //private String iid;
-    public Event(String username, Integer password)
+    public Event(String username, Integer password,String device_id)
     {
         this.name = username;
         this.phone = password;
-        //this.device_id=deviceid;
+        this.device_id=device_id;
 
     }
 }
@@ -73,12 +73,14 @@ public class CreateAccount extends AsyncTask<String,Void,Boolean>
     @Override
     protected Boolean doInBackground(String... inputs) {
 
+
+
         HttpURLConnection urlConnection;
         String url=inputs[0];
         String data ;
         String result = null;
         Collection ser=new ArrayList();
-        ser.add(new Event(inputs[1],Integer.parseInt(inputs[2])));
+        ser.add(new Event(inputs[1],Integer.parseInt(inputs[2]),inputs[3]));
         Gson gson=new Gson();
         data= gson.toJson(ser);
 

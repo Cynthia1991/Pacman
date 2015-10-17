@@ -1,6 +1,8 @@
 package pacman372.dementiaaid.CreateAccount;
 
+import android.content.Context;
 import android.content.Intent;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -41,7 +43,7 @@ public class CreateAccountPr
          this.createAccountView=createAccountView;
          this.createAccount=createAccount;
     }
-    public void OnCreateAccountClicked(View view)
+    public void OnCreateAccountClicked(View view,String device_id)
     {
         String new_username=createAccountView.getNewUsername();
         String new_password=createAccountView.getNewPassWord();
@@ -67,7 +69,9 @@ public class CreateAccountPr
             return;
         }
         //String StoreSuccess= createAccount.makeRequest(url,new_username,password_confirm);
-       new  CreateAccount().execute(url,new_username,new_password);
+
+
+       new  CreateAccount().execute(url,new_username,new_password,device_id);
        // Pushbots.sharedInstance().register();
 
         //Log.d("push_id", Pushbots.sharedInstance().regID());
