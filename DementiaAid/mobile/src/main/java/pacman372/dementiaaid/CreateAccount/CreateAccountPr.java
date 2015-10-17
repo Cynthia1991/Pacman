@@ -26,7 +26,7 @@ import pacman372.dementiaaid.Login.LoginActivity;
 import pacman372.dementiaaid.MyApplication;
 import pacman372.dementiaaid.R;
 
-/**
+/**d
  * Created by jieliang on 8/10/2015.
  */
 public class CreateAccountPr
