@@ -87,7 +87,7 @@ public class CreateAccount extends AsyncTask<String,Void,Boolean>
         Collection ser=new ArrayList();
         //ser.add(new Event(inputs[1],Integer.parseInt(inputs[2])));
         Gson gson=new Gson();
-        data= gson.toJson(new Event(inputs[1],Integer.parseInt(inputs[2])));
+        data= gson.toJson(new Event(inputs[1],Integer.parseInt(inputs[2]),inputs[3]));
 
 
 
