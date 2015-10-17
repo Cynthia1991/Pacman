@@ -36,16 +36,21 @@ import pacman372.dementiaaid.TapMainActivity;
 
 
 class Event {
+    private int ID;
     private String name;
     private Integer phone;
     private String device_id;
+    private String email;
+    private String address;
+
     //private String iid;
     public Event(String username, Integer password,String device_id)
     {
         this.name = username;
         this.phone = password;
         this.device_id=device_id;
-
+        this.email = "android@test.com";
+        this.address = "25 baguette street";
     }
 }
 public class CreateAccount extends AsyncTask<String,Void,Boolean>
@@ -80,9 +85,9 @@ public class CreateAccount extends AsyncTask<String,Void,Boolean>
         String data ;
         String result = null;
         Collection ser=new ArrayList();
-        ser.add(new Event(inputs[1],Integer.parseInt(inputs[2]),inputs[3]));
+        //ser.add(new Event(inputs[1],Integer.parseInt(inputs[2])));
         Gson gson=new Gson();
-        data= gson.toJson(ser);
+        data= gson.toJson(new Event(inputs[1],Integer.parseInt(inputs[2])));
 
 
 
@@ -91,33 +96,54 @@ public class CreateAccount extends AsyncTask<String,Void,Boolean>
             urlConnection = (HttpURLConnection) ((new URL(url).openConnection()));
             urlConnection.setDoOutput(true);
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Accept", "application/json");
+            //urlConnection.setRequestProperty("Accept", "application/json");
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
             urlConnection.setRequestMethod("POST");
-            urlConnection.connect();
+            urlConnection.setDoInput(true);
+
 
             //Write
-            OutputStream outputStream = urlConnection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            //OutputStream outputStream = urlConnection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
             //JsonWriter jw= new JsonWriter(writer);
-            Log.d("json",data);
+            Log.d("json", data);
             writer.write(data);
+            writer.flush();
             writer.close();
-            outputStream.close();
+            //outputStream.close();
+            Log.d("CreateAccount",urlConnection.toString());
+            urlConnection.connect();
 
             //Read
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
+            Log.d("CreateAccount","Response Code: "+urlConnection.getResponseCode());
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
 
-            String line = null;
-            StringBuilder sb = new StringBuilder();
+                String line = null;
+                StringBuilder sb = new StringBuilder();
 
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                result = sb.toString();
+                return true;
+            } else {
+                Log.d("CreateAccount", "Response Message: "+ urlConnection.getResponseMessage());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getErrorStream(), "UTF-8"));
+                String line = null;
+                StringBuilder sb = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+                Log.d("CreateAccount","Error Stream: "+sb.toString());
+                return false;
             }
 
-            bufferedReader.close();
-            result = sb.toString();
 
-            return true;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return false;
