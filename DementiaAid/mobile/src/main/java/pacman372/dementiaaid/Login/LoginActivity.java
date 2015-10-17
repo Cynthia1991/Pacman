@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.pushbots.push.Pushbots;
+
 import pacman372.dementiaaid.CreateAccount.CreateAccountActivity;
 import pacman372.dementiaaid.R;
 import pacman372.dementiaaid.TapMainActivity;
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Pushbots.sharedInstance().init(this);
     }
 
     @Override
