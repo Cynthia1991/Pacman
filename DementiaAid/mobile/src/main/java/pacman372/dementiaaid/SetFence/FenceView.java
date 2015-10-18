@@ -1,5 +1,7 @@
 package pacman372.dementiaaid.SetFence;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
 
@@ -16,6 +18,7 @@ import java.util.List;
 
 import pacman372.dementiaaid.EntityClasses.FencePoint;
 import pacman372.dementiaaid.EntityClasses.PolygonalFence;
+import pacman372.dementiaaid.R;
 import pacman372.dementiaaid.ServerAidClasses.IDementiaAidService;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -30,6 +33,8 @@ public class FenceView {
     private final static String baseURL="http://pacmandementiaaid.azurewebsites.net/";
     int carerID = 3; //TODO: Get from wherever this is stored after login
     int patientID = 1; //TODO: Get from wherever this is stored after login
+
+    private Activity caller;
     public FenceView(){
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -62,7 +67,17 @@ public class FenceView {
                     service.addFence(fence).enqueue(new Callback<CircularFence>() {
                         @Override
                         public void onResponse(Response<CircularFence> response, Retrofit retrofit) {
+                            CircularFence circularFence = new CircularFence();
+                            circularFence.radius = response.body().radius;
+                            circularFence.latitude = response.body().latitude;
+                            circularFence.longitude = response.body().longitude;
 
+                            SharedPreferences userDetails = caller.getSharedPreferences(caller.getString(R.string.sharedPreferences),0);
+                            SharedPreferences.Editor editor = userDetails.edit();
+                            editor.putString("FenceType","CircularFence");
+                            //editor.putString("CircularFence",String.valueOf(carer.getID()));
+
+                            editor.commit();
                         }
 
                         @Override
