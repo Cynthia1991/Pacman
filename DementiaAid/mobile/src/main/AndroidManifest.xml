@@ -28,7 +28,8 @@
     <uses-permission android:name="pacman372.dementiaaid.permission.C2D_MESSAGE" />
     <!-- This app has permission to register and receive dataf message. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -46,6 +47,7 @@
             android:label="@string/title_activity_tap_main" >
             <intent-filter>
                 <action android:name="pacman372.dementiaaid.MESSAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -92,12 +94,14 @@
             android:parentActivityName=".Login.LoginActivity" >
         </activity>
         <activity
-              android:name=".CreateAccount.CreateAccountActivity"
-              android:label="CreateAccountAcitivity">
+            android:name=".CreateAccount.CreateAccountActivity"
+            android:label="CreateAccountAcitivity" >
         </activity>
         <activity
             android:name=".CreateAccount.CreateAccount"
-            android:label="CreateAccountAcitivity">
+            android:label="CreateAccountAcitivity" >
+        </activity>
+        <activity android:name=".CarerDetails" >
         </activity>
     </application>
 

@@ -52,7 +52,7 @@ public class TapMainActivity extends ActivityGroup {
         LayoutInflater i=LayoutInflater.from(this);
         //i.inflate(R.layout.tab1, m.getTabContentView());
         i.inflate(R.layout.tab2, m.getTabContentView());
-        i.inflate(R.layout.tab3, m.getTabContentView());//dynamic XML，no need for Activity
+        //i.inflate(R.layout.tab3, m.getTabContentView());//dynamic XML，no need for Activity
 
 
 
@@ -69,32 +69,15 @@ public class TapMainActivity extends ActivityGroup {
         intentNew.putExtra("x1",latestX);
         intentNew.putExtra("y1",latestY);
         intentNew.putExtra("radius1",latestRadius);
-        //startActivity(Tab1ShowMapActivity);
-
-
-
 
         m.addTab(m.newTabSpec("tab1").setIndicator("Map").setContent(intentNew));
         m.addTab(m.newTabSpec("tab2").setIndicator("Patient").setContent(R.id.LinearLayout02));
-        m.addTab(m.newTabSpec("tab3").setIndicator("Carer").setContent(R.id.LinearLayout03));
+        m.addTab(m.newTabSpec("tab3").setIndicator("Carer").setContent(new Intent(this, CarerDetails.class)));
 
         button=(Button)findViewById(R.id.button);
 
         button2=(Button)findViewById(R.id.button2);
 
-        button2.setOnClickListener(new View.OnClickListener(){@Override
-                                                              public void onClick(View view) {
-
-
-            alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(context, TapMainActivity.class);
-            alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() +
-                            10 * 1000, alarmIntent);
-        }
-        });
     }
 
 
