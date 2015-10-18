@@ -1,8 +1,10 @@
 package pacman372.dementiaaid.SetFence;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,7 +27,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class FenceView {
+public class FenceView{
     boolean centerDefined = false;
     protected CircularFence fence;
     protected PolygonalFence pFence;
@@ -35,6 +37,19 @@ public class FenceView {
     int patientID = 1; //TODO: Get from wherever this is stored after login
 
     private Activity caller;
+    //public static Context contextOfApplication;
+
+    public FenceView(AppCompatActivity caller){
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(baseURL)
+                .build();
+        service = retrofit.create(IDementiaAidService.class);
+        mode = MODE.Circular;
+        this.caller = caller;
+
+        //contextOfApplication = getApplicationContext();
+    }
     public FenceView(){
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -42,7 +57,12 @@ public class FenceView {
                 .build();
         service = retrofit.create(IDementiaAidService.class);
         mode = MODE.Circular;
+        //this.caller = caller;
+
+        //contextOfApplication = getApplicationContext();
     }
+
+    //Context applicationContext = MyActivityClass.getContextOfApplication();
     private IDementiaAidService service;
     public enum MODE {
         Circular,
@@ -60,24 +80,34 @@ public class FenceView {
         return fence == null && !centerDefined;
     }
 
+
     public void onPause(){
             switch (mode) {
 
                 case Circular:
+
+                    CircularFence circularFence = new CircularFence();
+                    circularFence.radius = fence.radius;
+                    circularFence.latitude = fence.latitude;
+                    circularFence.longitude = fence.longitude;
+                    //Context context;
+                    String string = "pacman372.dementiaaid.userDetails";
+                    SharedPreferences userDetails = caller.getSharedPreferences(string, 0);
+                    SharedPreferences.Editor editor = userDetails.edit();
+                    editor.putString("FenceType","CircularFence");
+                    Gson gson = new Gson();
+                    String circularFenceJson = gson.toJson(circularFence); // myObject - instance of MyObject
+                    editor.putString("Fence",circularFenceJson);
+                    //editor.putString("CircularFence",String.valueOf(carer.getID()));
+
+                    editor.commit();
+
                     service.addFence(fence).enqueue(new Callback<CircularFence>() {
+
                         @Override
                         public void onResponse(Response<CircularFence> response, Retrofit retrofit) {
-                            CircularFence circularFence = new CircularFence();
-                            circularFence.radius = response.body().radius;
-                            circularFence.latitude = response.body().latitude;
-                            circularFence.longitude = response.body().longitude;
 
-                            SharedPreferences userDetails = caller.getSharedPreferences(caller.getString(R.string.sharedPreferences),0);
-                            SharedPreferences.Editor editor = userDetails.edit();
-                            editor.putString("FenceType","CircularFence");
-                            //editor.putString("CircularFence",String.valueOf(carer.getID()));
 
-                            editor.commit();
                         }
 
                         @Override
@@ -87,7 +117,21 @@ public class FenceView {
                     });
                     break;
                 case Polygonal:
+                    //PolygonalFence polygonalFence = new PolygonalFence();
+                    String pString = "pacman372.dementiaaid.userDetails";
+                    SharedPreferences pUserDetails = caller.getSharedPreferences(pString, 0);
+                    SharedPreferences.Editor pEditor = pUserDetails.edit();
+                    pEditor.putString("FenceType","PolygonalFence");
+                    Gson pGson = new Gson();
+                    String PolygonalFenceJson = pGson.toJson(pFence); // myObject - instance of MyObject
+                    pEditor.putString("Fence",PolygonalFenceJson);
+                    //editor.putString("CircularFence",String.valueOf(carer.getID()));
+
+                    pEditor.commit();
+
+
                     service.addFence(pFence).enqueue(new Callback<PolygonalFence>() {
+
                         @Override
                         public void onResponse(Response<PolygonalFence> response, Retrofit retrofit) {
 

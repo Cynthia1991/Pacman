@@ -67,7 +67,8 @@ public class carerVM {
 
         //JSONObject jsonObject = new JSONObject(returnedCarerString);
         //carer.setID(jsonObject.getInt("ID"));
-        SharedPreferences userDetails = caller.getSharedPreferences(caller.getString(R.string.sharedPreferences),0);
+        String string = caller.getString(R.string.sharedPreferences);
+        SharedPreferences userDetails = caller.getSharedPreferences(string,0);
         SharedPreferences.Editor editor = userDetails.edit();
         //editor.putString("userID",String.valueOf(carer.getID()));
         editor.putString("userID",String.valueOf(IDCarer));

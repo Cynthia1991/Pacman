@@ -85,7 +85,8 @@ public class LoginResult extends AppCompatActivity {
     }
 
     public void loggedIn() {
-        SharedPreferences userDetails = getSharedPreferences(getString(R.string.sharedPreferences),0);
+        String string =getString(R.string.sharedPreferences);
+        SharedPreferences userDetails = getSharedPreferences(string,0);
         SharedPreferences.Editor editor = userDetails.edit();
         editor.putString("userID",String.valueOf(IDCarer));
         editor.commit();

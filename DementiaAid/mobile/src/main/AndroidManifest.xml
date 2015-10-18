@@ -44,7 +44,8 @@
 
         <activity
             android:name=".TapMainActivity"
-            android:label="@string/title_activity_tap_main" >
+            android:label="@string/title_activity_tap_main"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="pacman372.dementiaaid.MESSAGE" />
 
