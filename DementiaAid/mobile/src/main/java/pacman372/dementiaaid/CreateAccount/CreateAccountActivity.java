@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ public class CreateAccountActivity extends Activity implements CreateAccountView
     CreateAccountPr createAccountPr;
     Button button;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +43,13 @@ public class CreateAccountActivity extends Activity implements CreateAccountView
        createAccountPr=  new CreateAccountPr(this,new CreateAccount());
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(connectionError(tryconnection()));
-                {createAccountPr.OnCreateAccountClicked(v);}
+                if (connectionError(tryconnection())) ;
+                {
+                    createAccountPr.OnCreateAccountClicked(v,device_tag());
+                }
             }
-    });
+        });
+
 
     }
 
@@ -123,6 +128,13 @@ public class CreateAccountActivity extends Activity implements CreateAccountView
         Toast.makeText(this,getString(resId),Toast.LENGTH_LONG).show();
 
     }
+
+    @Override
+    public String device_tag() {
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+      return   telephonyManager.getDeviceId();
+
+            }
 
 
 }
