@@ -1,6 +1,7 @@
 package com.example.pacmanandroidnew;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class RegisterActivity extends Activity {
         textPassword=(EditText)findViewById(R.id.editText4);
         textConfirm=(EditText)findViewById(R.id.editText5);
         Button btnRegister=(Button)findViewById(R.id.button5);
+        //final String deviceId=device_tag();
        // TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
        // final String imei=tm.getDeviceSoftwareVersion().toString().trim();
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -71,9 +73,9 @@ public class RegisterActivity extends Activity {
                     @Override
                     protected Void doInBackground(Void... params) {
                         try {
-
+                            final String deviceId=device_tag();
                             RegisterPatient create=new RegisterPatient();
-                             info=create.uploadInformation(createPatient, username, password, "123123");
+                             info=create.uploadInformation(createPatient, username, password, deviceId);
                            // MobileServiceList<LoginDetail> results=mToDoTable.where().field("username").eq(item.username).execute().get();
                             //StringBuffer sb = new StringBuffer();
                             //for(LoginDetail p:results){
@@ -145,6 +147,13 @@ public class RegisterActivity extends Activity {
 
         }
 
+
+
+    public String device_tag() {
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        return   telephonyManager.getDeviceId();
+
+    }
 
     private void createAndShowDialog(final Exception message, final String title) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
