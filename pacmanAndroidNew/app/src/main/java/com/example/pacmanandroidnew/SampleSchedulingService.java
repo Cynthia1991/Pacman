@@ -308,15 +308,15 @@ public class SampleSchedulingService extends IntentService implements Connection
             //conn.connect();
             int response = conn.getResponseCode();
             String message = conn.getResponseMessage();
-            BufferedReader re=new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
-            String line=null;
-            StringBuilder sb=new StringBuilder();
-            while ((line = re.readLine()) != null) {
-                sb.append(line);
-            }
+           // BufferedReader re=new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
+          //  String line=null;
+          //  StringBuilder sb=new StringBuilder();
+          //  while ((line = re.readLine()) != null) {
+          //      sb.append(line);
+          //  }
 
-            re.close();
-            String result = sb.toString();
+          //  re.close();
+         //   String result = sb.toString();
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
@@ -324,9 +324,7 @@ public class SampleSchedulingService extends IntentService implements Connection
             return contentAsString;
 
         } finally {
-            if (is != null) {
-                is.close();
-            }
+           // Toast.makeText(SampleSchedulingService.this, "success uploaded", Toast.LENGTH_SHORT).show();
         }
 
 
