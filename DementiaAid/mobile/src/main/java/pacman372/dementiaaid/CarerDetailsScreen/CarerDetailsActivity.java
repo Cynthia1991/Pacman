@@ -37,15 +37,7 @@ public class CarerDetailsActivity extends AppCompatActivity {
         button2=(Button)findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener(){@Override
                                                               public void onClick(View view) {
-
-
-            alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(context, TapMainActivity.class);
-            alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-            alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime() +
-                            10 * 1000, alarmIntent);
+            carerDetailsVM.regDevice();
         }
         });
 
