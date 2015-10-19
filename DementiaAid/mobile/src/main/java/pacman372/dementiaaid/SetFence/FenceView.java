@@ -33,7 +33,7 @@ public class FenceView{
     protected PolygonalFence pFence;
     public static final LatLng DEFAULT_CAMERA = new LatLng(-27.4667, 153.0333);
     private final static String baseURL="http://pacmandementiaaid.azurewebsites.net/";
-    int carerID = 3; //TODO: Get from wherever this is stored after login
+    int carerID = 8; //TODO: Get from wherever this is stored after login
     int patientID = 1; //TODO: Get from wherever this is stored after login
 
     private Activity caller;
