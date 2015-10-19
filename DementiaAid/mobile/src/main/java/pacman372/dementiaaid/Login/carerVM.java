@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,7 +57,8 @@ public class carerVM {
 
         if (loggedin) {
             loggedIn();
-            new DownloadPatientTask().execute("http://pacmandementiaaid.azurewebsites.net/api/CarerPatient?$filter=id_carer eq "+IDCarer);
+            Log.d(ERROR_KEY," CarerPatientURL: " + "http://pacmandementiaaid.azurewebsites.net/api/CarerPatient?$filter=id_carer%20eq%20"+IDCarer);
+            new DownloadPatientTask().execute("http://pacmandementiaaid.azurewebsites.net/api/CarerPatient?$filter=id_carer%20eq%20"+IDCarer);
             return true;
         } else {
             return false;
@@ -65,21 +67,21 @@ public class carerVM {
 
     public void loggedIn() {
 
-        //JSONObject jsonObject = new JSONObject(returnedCarerString);
-        //carer.setID(jsonObject.getInt("ID"));
         String string = caller.getString(R.string.sharedPreferences);
-        SharedPreferences userDetails = caller.getSharedPreferences(string,0);
+        SharedPreferences userDetails = caller.getSharedPreferences(string,2);
         SharedPreferences.Editor editor = userDetails.edit();
         //editor.putString("userID",String.valueOf(carer.getID()));
-        editor.putString("userID",String.valueOf(IDCarer));
+        editor.putString("userID", String.valueOf(IDCarer));
         editor.commit();
+        Log.d(ERROR_KEY,"shared pref: "+userDetails.getString("userID","-1"));
     }
 
     public void patientID() {
-        SharedPreferences userDetails = caller.getSharedPreferences(caller.getString(R.string.sharedPreferences),0);
+        SharedPreferences userDetails = caller.getSharedPreferences(caller.getString(R.string.sharedPreferences),2);
         SharedPreferences.Editor editor = userDetails.edit();
         editor.putString("patientID",String.valueOf(IDPatient));
         editor.commit();
+        Log.d(ERROR_KEY, "PID "+ userDetails.getString("patientID","-1"));
     }
 
     private class DownloadLoginTask extends AsyncTask<String, Void, String> {
@@ -205,7 +207,8 @@ public class carerVM {
                 if (response == 200)
                 {
                     // Convert the InputStream into a string
-                    JSONObject jsonObject = new JSONObject(contentAsString);
+                    JSONArray jArray = new JSONArray(contentAsString);
+                    JSONObject jsonObject = jArray.getJSONObject(0);
                     IDPatient = jsonObject.getInt("id_patient");
                     pdetails = true;
                 } else {
