@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pacman372.dementiaaid.CarerDetails">
+    tools:context="pacman372.dementiaaid.CarerDetailsScreen.CarerDetailsActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,7 +37,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="Register Device"
             android:id="@+id/button2"
             android:layout_gravity="bottom"
             android:layout_marginBottom="38dp"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Name: eee"
-            android:id="@+id/textView10"
+            android:id="@+id/textViewCarerName"
             android:layout_below="@+id/textView2"
             android:layout_alignLeft="@+id/textView2"
             android:layout_alignStart="@+id/textView2" />
@@ -69,18 +69,18 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Carer ID: 01"
-            android:id="@+id/textView11"
-            android:layout_below="@+id/textView10"
-            android:layout_alignLeft="@+id/textView10"
-            android:layout_alignStart="@+id/textView10" />
+            android:id="@+id/textViewCarerID"
+            android:layout_below="@+id/textViewCarerName"
+            android:layout_alignLeft="@+id/textViewCarerName"
+            android:layout_alignStart="@+id/textViewCarerName" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Phone: 0449012345"
-            android:id="@+id/textView12"
-            android:layout_below="@+id/textView11"
+            android:id="@+id/textViewCarerPhone"
+            android:layout_below="@+id/textViewCarerID"
             android:layout_toRightOf="@+id/imageView7"
             android:layout_toEndOf="@+id/imageView7" />
     </RelativeLayout>

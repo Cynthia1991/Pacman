@@ -102,7 +102,7 @@
             android:name=".CreateAccount.CreateAccount"
             android:label="CreateAccountAcitivity" >
         </activity>
-        <activity android:name=".CarerDetails" >
+        <activity android:name=".CarerDetailsScreen.CarerDetailsActivity" >
         </activity>
     </application>
 
