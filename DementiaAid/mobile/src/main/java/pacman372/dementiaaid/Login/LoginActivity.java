@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Pushbots.sharedInstance().init(this);
+        Log.d(ERROR_KEY, "pushbots ID:"+ Pushbots.sharedInstance().regID());
     }
 
     @Override
