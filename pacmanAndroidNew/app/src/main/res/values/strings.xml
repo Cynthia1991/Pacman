@@ -15,4 +15,5 @@
         No location detected. Make sure location is enabled on the device.
     </string>
     <string name="doodle_alert">Doodle Alert</string>
+    <string name="sharedPreferences">pacman372.dementiaaid.userDetails</string>
 </resources>

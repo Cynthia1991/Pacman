@@ -132,8 +132,9 @@ int string hello_world 0x7f070028
 int string menu_refresh 0x7f070029
 int string mobile_services 0x7f07002a
 int string no_location_detected 0x7f07002b
-int string title_activity_login 0x7f07002c
-int string title_activity_main 0x7f07002d
+int string sharedPreferences 0x7f07002c
+int string title_activity_login 0x7f07002d
+int string title_activity_main 0x7f07002e
 int style AppBaseTheme 0x7f080000
 int style AppTheme 0x7f080001
 int[] styleable LoadingImageView { 0x7f010000, 0x7f010001, 0x7f010002 }

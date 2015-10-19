@@ -10,18 +10,22 @@ import java.io.IOException;
  * Created by lichuan on 11/10/2015.
  */
 public class Patient {
-    private int ID;
-    private String name;
-    private String phone;
-    private String device_id;
+    public int ID;
+    public String name;
+    public String phone;
+    public String device_id;
+    public void Patient(){
 
-    public int getID() {
-        return ID;
     }
 
-    public void setID(int ID) {
+    public void Patient(int ID,String name,String phone,String device_id){
         this.ID = ID;
+        this.name = name;
+        this.phone = phone;
+        this.device_id = device_id;
+
     }
+
 
     public String getName() {
         return name;
@@ -48,31 +52,31 @@ public class Patient {
     }
 
     //@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void serializeJson(JsonWriter jw){
-        try{
-            jw.beginObject();
-            if (getID() == -1) {
-                jw.name("id").nullValue();
-            } else {
-                jw.name("id").value(getID());
-            }
-            if (getName() == null) {
-                jw.name("name").nullValue();
-            } else {
-                jw.name("name").value(getName());
-            }
-            if (getName() == null) {
-                jw.name("phone").nullValue();
-            } else {
-                jw.name("phone").value(getPhone());
-            }
-            if (getName() == null) {
-                jw.name("device_id").nullValue();
-            } else {
-                jw.name("device_id").value(getDevice_id());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void serializeJson(JsonWriter jw){
+//        try{
+//            jw.beginObject();
+//            if (getID() == -1) {
+//                jw.name("id").nullValue();
+//            } else {
+//                jw.name("id").value(getID());
+//            }
+//            if (getName() == null) {
+//                jw.name("name").nullValue();
+//            } else {
+//                jw.name("name").value(getName());
+//            }
+//            if (getName() == null) {
+//                jw.name("phone").nullValue();
+//            } else {
+//                jw.name("phone").value(getPhone());
+//            }
+//            if (getName() == null) {
+//                jw.name("device_id").nullValue();
+//            } else {
+//                jw.name("device_id").value(getDevice_id());
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

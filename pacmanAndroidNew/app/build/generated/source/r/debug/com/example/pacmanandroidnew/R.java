@@ -302,8 +302,9 @@ containing a value of this type.
         public static final int menu_refresh=0x7f070029;
         public static final int mobile_services=0x7f07002a;
         public static final int no_location_detected=0x7f07002b;
-        public static final int title_activity_login=0x7f07002c;
-        public static final int title_activity_main=0x7f07002d;
+        public static final int sharedPreferences=0x7f07002c;
+        public static final int title_activity_login=0x7f07002d;
+        public static final int title_activity_main=0x7f07002e;
     }
     public static final class style {
         /** 

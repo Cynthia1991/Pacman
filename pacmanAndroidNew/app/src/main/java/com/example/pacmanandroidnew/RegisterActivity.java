@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +30,8 @@ public class RegisterActivity extends Activity {
     private EditText textPassword;
     private EditText textConfirm;
     private String info;
-    private MobileServiceTable<LoginDetail> mToDoTable;
+    private final String createPatient="http://pacmandementiaaid.azurewebsites.net/api/patient";
+    //private MobileServiceTable<LoginDetail> mToDoTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,8 @@ public class RegisterActivity extends Activity {
         textPassword=(EditText)findViewById(R.id.editText4);
         textConfirm=(EditText)findViewById(R.id.editText5);
         Button btnRegister=(Button)findViewById(R.id.button5);
+       // TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
+       // final String imei=tm.getDeviceSoftwareVersion().toString().trim();
         btnRegister.setOnClickListener(new View.OnClickListener() {
 
 
@@ -67,28 +71,31 @@ public class RegisterActivity extends Activity {
                     @Override
                     protected Void doInBackground(Void... params) {
                         try {
-                            MobileServiceList<LoginDetail> results=mToDoTable.where().field("username").eq(item.username).execute().get();
-                            StringBuffer sb = new StringBuffer();
-                            for(LoginDetail p:results){
+
+                            RegisterPatient create=new RegisterPatient();
+                             info=create.uploadInformation(createPatient, username, password, "123123");
+                           // MobileServiceList<LoginDetail> results=mToDoTable.where().field("username").eq(item.username).execute().get();
+                            //StringBuffer sb = new StringBuffer();
+                            //for(LoginDetail p:results){
                                 //t1.setText(p.password);
-                                sb.append(p.username);
-                            }
+                           //     sb.append(p.username);
+                           // }
 
-                            if(sb.toString().trim().equals(username)) {
-                                info="username exist";
+                           // if(sb.toString().trim().equals(username)) {
+                             //   info="username exist";
 
-                            }else {
+                            //}else {
 
 
-                                if ((password.equals(passwordConfirm)) && (username != null) && (password != null && passwordConfirm != null)) {
-                                    mToDoTable.insert(item).get();
-                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                    startActivity(intent);
-                                    info = "success";
-                                } else {
-                                    info = "register failed";
-                                }
-                            }
+//                                if ((password.equals(passwordConfirm)) && (username != null) && (password != null && passwordConfirm != null)) {
+//                                    mToDoTable.insert(item).get();
+//                                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+//                                    startActivity(intent);
+//                                    info = "success";
+//                                } else {
+//                                    info = "register failed";
+//                                }
+//                            }
 
                         } catch (Exception exception) {
                           createAndShowDialog(exception, "Error");
@@ -103,6 +110,10 @@ public class RegisterActivity extends Activity {
                         //t1.setText(info);
                         //do stuff
                         //how to return a variable here?
+                        if(info.trim().equals("success")) {
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 }.execute();
 
@@ -115,18 +126,18 @@ public class RegisterActivity extends Activity {
         });
 
 
-        try {
-            mClient = new MobileServiceClient(
-                    "https://pacmanandroidnew.azure-mobile.net/",
-                    "yvhFQLOdzpcMzjbgJDkWxhHhFEGhNd51",
-                    this
-            );
-
-
-            mToDoTable=mClient.getTable("patientLogin",LoginDetail.class);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            mClient = new MobileServiceClient(
+//                    "https://pacmanandroidnew.azure-mobile.net/",
+//                    "yvhFQLOdzpcMzjbgJDkWxhHhFEGhNd51",
+//                    this
+//            );
+//
+//
+//            mToDoTable=mClient.getTable("patientLogin",LoginDetail.class);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
         //LoginDetail item = new LoginDetail();
         //item.username =textUsername.getText().toString() ;
         //if((textPassword.getText().toString().trim()).equals(textConfirm.getText().toString().trim())){

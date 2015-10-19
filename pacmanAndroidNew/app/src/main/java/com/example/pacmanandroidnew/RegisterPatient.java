@@ -1,6 +1,5 @@
 package com.example.pacmanandroidnew;
 
-import android.util.JsonWriter;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -15,27 +14,29 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 /**
- * Created by lichuan on 11/10/2015.
+ * Created by lichuan on 19/10/2015.
  */
-
-
-public class UploadInfo {
-    public String uploadInformation(String myurl, double x, double y) throws IOException {
+public class RegisterPatient {
+    private  String info="success";
+    public String uploadInformation(String myurl, String name, String phone, String deviceId) throws IOException {
         InputStream is = null;
         // Only display the first 500 characters of the retrieved
         // web page content.
         Gson gson=new Gson();
 
-        Location location=new Location();
-        int len = 500;
-        //location.setID(10001);
-        location.setId_Patient(8);
-        location.setCoordinateX(x);
-        location.setCoordinateY(y);
-        String data= gson.toJson(location);
+        Patient patient=new Patient();
+        int len = 50000;
+        patient.ID=-1;
+        patient.setName(name);
+        patient.setPhone(phone);
+        patient.setDevice_id(deviceId);
+//        location.setId_Patient(1);
+//        location.setCoordinateX(x);
+//        location.setCoordinateY(y);
+//        location.setId_Carer(8);
+        String data= gson.toJson(patient);
         try {
             URL url = new URL(myurl);
             HttpURLConnection conn = (HttpURLConnection) ((new URL(myurl).openConnection()));
@@ -62,8 +63,8 @@ public class UploadInfo {
 
             // Starts the query
             //conn.connect();
-          int response = conn.getResponseCode();
-           String message = conn.getResponseMessage();
+            int response = conn.getResponseCode();
+            String message = conn.getResponseMessage();
             BufferedReader re=new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
             String line=null;
             StringBuilder sb=new StringBuilder();
@@ -80,9 +81,7 @@ public class UploadInfo {
             return contentAsString;
 
         } finally {
-            if (is != null) {
-                is.close();
-            }
+            return  info;
         }
 
 

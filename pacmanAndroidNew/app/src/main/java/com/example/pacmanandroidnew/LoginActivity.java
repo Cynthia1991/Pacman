@@ -1,10 +1,16 @@
 package com.example.pacmanandroidnew;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +30,10 @@ public class LoginActivity extends Activity {
     private MobileServiceTable<LoginDetail> mToDoTable;
     private TextView t1;
     private String info;
+    public final String ERROR_KEY = "LoginViewTest: ";
+
+    private PatientVM patientVM = new PatientVM();
+    private AlertDialog.Builder alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,57 +56,57 @@ public class LoginActivity extends Activity {
             }
 
         });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                final LoginDetail item = new LoginDetail();
-                item.username =textUsername.getText().toString() ;
-                final String password=textPassword.getText().toString();
-                AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        try {
-                            MobileServiceList<LoginDetail> results=mToDoTable.where().field("username").eq(item.username).execute().get();
-                            StringBuffer sb = new StringBuffer();
-                            for(LoginDetail p:results){
-                               //t1.setText(p.password);
-                                sb.append(p.password);
-                            }
-                            //t1.setText(sb.toString());
-                            if(password.equals(sb.toString().trim())) {
-
-                                info="success";
-                                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                                intent.putExtra("username",item.username);
-                                startActivity(intent);
-
-                            }else{
-                                info="username or password is wrong";
-                            }
-
-                        } catch (Exception exception) {
-                            //createAndShowDialog(exception, "Error");
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void result) {
-
-                        Toast.makeText(getApplicationContext(), info,
-                                Toast.LENGTH_LONG).show();
-                        //do stuff
-                        //how to return a variable here?
-                    }
-                }.execute();
-
-
-
-            }
-
-        });
+//        btnLogin.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//
+//                final LoginDetail item = new LoginDetail();
+//                item.username =textUsername.getText().toString() ;
+//                final String password=textPassword.getText().toString();
+//                AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+//                    @Override
+//                    protected Void doInBackground(Void... params) {
+//                        try {
+//                            MobileServiceList<LoginDetail> results=mToDoTable.where().field("username").eq(item.username).execute().get();
+//                            StringBuffer sb = new StringBuffer();
+//                            for(LoginDetail p:results){
+//                               //t1.setText(p.password);
+//                                sb.append(p.password);
+//                            }
+//                            //t1.setText(sb.toString());
+//                            if(password.equals(sb.toString().trim())) {
+//
+//                                info="success";
+//                                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+//                                intent.putExtra("username",item.username);
+//                                startActivity(intent);
+//
+//                            }else{
+//                                info="username or password is wrong";
+//                            }
+//
+//                        } catch (Exception exception) {
+//                            //createAndShowDialog(exception, "Error");
+//                        }
+//                        return null;
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(Void result) {
+//
+//                        Toast.makeText(getApplicationContext(), info,
+//                                Toast.LENGTH_LONG).show();
+//                        //do stuff
+//                        //how to return a variable here?
+//                    }
+//                }.execute();
+//
+//
+//
+//            }
+//
+//        });
 
 
         try {
@@ -116,7 +126,38 @@ public class LoginActivity extends Activity {
 
 
 
-
+    public void tryLogin(View view){
+        EditText uName = (EditText) findViewById(R.id.editText);
+        EditText uPass = (EditText) findViewById(R.id.editText2);
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            if (patientVM.login(this, uName.getText().toString(), uPass.getText().toString())) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setMessage("Login Failed");
+                alertDialog.setNegativeButton("Try Again", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                });
+                alertDialog.show();
+            }
+        } else {
+            alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setMessage("No Network Connection");
+            alertDialog.setNegativeButton("Try Again", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                }
+            });
+            alertDialog.show();
+            Log.d(ERROR_KEY, "No Network Connection");
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

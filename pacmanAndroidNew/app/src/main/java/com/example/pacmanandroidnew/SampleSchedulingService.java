@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -16,11 +17,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -29,7 +35,7 @@ import java.net.URL;
  */
 public class SampleSchedulingService extends IntentService implements ConnectionCallbacks, OnConnectionFailedListener{
 
-    UploadInfo upload=new UploadInfo();
+
     private Thread newThread;
     private final static String locationUrl1="http://pacmandementiaaid.azurewebsites.net/api/Location";
     public SampleSchedulingService() {
@@ -54,6 +60,9 @@ public class SampleSchedulingService extends IntentService implements Connection
     protected static final String TAG = "basic-location-sample";
     protected GoogleApiClient mGoogleApiClient;
     protected android.location.Location mLastLocation;
+
+    private int id_Carer;
+    private int id_patient;
     @Override
     protected void onHandleIntent(Intent intent) {
         // BEGIN_INCLUDE(service_onhandle)
@@ -217,7 +226,9 @@ public class SampleSchedulingService extends IntentService implements Connection
                 public void run() {
                     //a new thread to send patient location
                     try {
-                        upload.uploadInformation(locationUrl1,x,y);
+
+                        //upload.uploadInformation(locationUrl1,x,y);
+                       String message =  uploadInformation(locationUrl1,x,y);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -242,5 +253,91 @@ public class SampleSchedulingService extends IntentService implements Connection
 // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
         // onConnectionFailed.
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+    }
+
+    private void setCarerIdAndPatientID(){
+        SharedPreferences userDetails = getSharedPreferences(getString(R.string.sharedPreferences), 0);
+        String cIDString = userDetails.getString("id_carer","-1");
+        id_Carer = Integer.parseInt(cIDString);
+        String pIDString = userDetails.getString("id_patient", "-1");
+        id_patient = Integer.parseInt(pIDString);
+
+    }
+    public String uploadInformation(String myurl, double x, double y) throws IOException {
+        InputStream is = null;
+        // Only display the first 500 characters of the retrieved
+        // web page content.
+        Gson gson=new Gson();
+
+        com.example.pacmanandroidnew.Location location=new com.example.pacmanandroidnew.Location();
+        int len = 50000;
+        location.ID = -1;
+
+        setCarerIdAndPatientID();
+
+        location.setId_Patient(id_patient);
+        location.setCoordinateX(x);
+        location.setCoordinateY(y);
+        location.setId_Carer(id_Carer);
+        String data= gson.toJson(location);
+        try {
+            URL url = new URL(myurl);
+            HttpURLConnection conn = (HttpURLConnection) ((new URL(myurl).openConnection()));
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setRequestMethod("POST");
+            //JsonWriter writer = new JsonWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+            //Log.d("json",);
+            //location.serializeJson(writer);
+            //Log.d("json", writer.toString());
+            //writer.close();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+            //JsonWriter jw= new JsonWriter(writer);
+            Log.d("json", data);
+            writer.write(data);
+            writer.flush();
+            writer.close();
+            //outputStream.close();
+            Log.d("upload_location",conn.toString());
+            conn.connect();
+
+            // Starts the query
+            //conn.connect();
+            int response = conn.getResponseCode();
+            String message = conn.getResponseMessage();
+            BufferedReader re=new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
+            String line=null;
+            StringBuilder sb=new StringBuilder();
+            while ((line = re.readLine()) != null) {
+                sb.append(line);
+            }
+
+            re.close();
+            String result = sb.toString();
+            is = conn.getInputStream();
+
+            // Convert the InputStream into a string
+            String contentAsString = readIt(is, len);
+            return contentAsString;
+
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+
+
+    }
+
+    public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+        Reader reader = null;
+
+        reader = new InputStreamReader(stream, "UTF-8");
+        char[] buffer = new char[len];
+        reader.read(buffer);
+        return new String(buffer);
     }
 }
