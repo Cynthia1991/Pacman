@@ -10,12 +10,16 @@ import android.view.MenuItem;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
+import pacman372.dementiaaid.CarerDetailsScreen.CarerDetailsVM;
 import pacman372.dementiaaid.EntityClasses.FencePoint;
+import pacman372.dementiaaid.EntityClasses.Location;
 import pacman372.dementiaaid.EntityClasses.PolygonalFence;
 import pacman372.dementiaaid.SetFence.CircularFence;
 import pacman372.dementiaaid.SetFence.FenceView;
@@ -29,6 +33,11 @@ public class Tab1ShowMapActivity extends FragmentActivity {
     private CircularFence cFence;
     private PolygonalFence pFence;
     private String fenceType;
+    private LocationGetter locationGetter;
+
+    private LatLng currentLocation;
+
+    private FenceView locationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,30 @@ public class Tab1ShowMapActivity extends FragmentActivity {
         setCurrentFence();
         //viewModel = new FenceView();
         //setUpMapIfNeeded();
+
+        locationViewModel = new FenceView();
+        locationGetter = new LocationGetter(this);
+
+        currentLocation = new LatLng(locationGetter.coordinates_x,locationGetter.coordinates_y);
+//        //1.Set mode of fence view.
+//        locationViewModel.SetMode(FenceView.MODE.Circular);
+//        if(currentLocation!= null){
+//            //2.Set center of fence view.
+//            locationViewModel.mapClicked(currentLocation);
+//            //3.Set radius of fence view.
+//            locationViewModel.radiusChanged(0);
+//            //4.Configure map by viewModel
+//            locationViewModel.configureMap(mMap);
+//        }
+        Marker myPatients = mMap.addMarker(new MarkerOptions().position(currentLocation)
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+//        MarkerOptions markerOptions = new MarkerOptions().position(currentLocation);
+//        if (markerOptions != null) {
+//            mMap.addMarker(markerOptions);
+//        }
+
+
 
     }
 

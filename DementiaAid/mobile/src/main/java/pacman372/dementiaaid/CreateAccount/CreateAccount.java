@@ -139,7 +139,8 @@ public class CreateAccount extends AsyncTask<String,Void,Boolean>
                 }
 
                 bufferedReader.close();
-                result = sb.toString();
+                result =
+                        sb.toString();
                 return true;
             } else {
                 Log.d("CreateAccount", "Response Message: "+ urlConnection.getResponseMessage());
