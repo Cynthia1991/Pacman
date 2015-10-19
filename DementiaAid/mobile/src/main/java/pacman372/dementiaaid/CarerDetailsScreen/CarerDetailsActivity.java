@@ -1,4 +1,4 @@
-package pacman372.dementiaaid;
+package pacman372.dementiaaid.CarerDetailsScreen;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -12,7 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class CarerDetails extends AppCompatActivity {
+import pacman372.dementiaaid.R;
+import pacman372.dementiaaid.TapMainActivity;
+
+public class CarerDetailsActivity extends AppCompatActivity {
 
     //for the set fence activity
     Button button2;

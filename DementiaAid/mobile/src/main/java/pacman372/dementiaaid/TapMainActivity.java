@@ -7,7 +7,6 @@ import android.content.Context;
 import android.app.ActivityGroup;
 
 import android.content.Intent;
-import android.os.SystemClock;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +20,7 @@ import android.widget.TabHost;
 
 import com.pushbots.push.Pushbots;
 
+import pacman372.dementiaaid.CarerDetailsScreen.CarerDetailsActivity;
 import pacman372.dementiaaid.SetFence.MapsActivity;
 
 
@@ -72,7 +72,7 @@ public class TapMainActivity extends ActivityGroup {
 
         m.addTab(m.newTabSpec("tab1").setIndicator("Map").setContent(intentNew));
         m.addTab(m.newTabSpec("tab2").setIndicator("Patient").setContent(R.id.LinearLayout02));
-        m.addTab(m.newTabSpec("tab3").setIndicator("Carer").setContent(new Intent(this, CarerDetails.class)));
+        m.addTab(m.newTabSpec("tab3").setIndicator("Carer").setContent(new Intent(this, CarerDetailsActivity.class)));
 
         button=(Button)findViewById(R.id.button);
 
