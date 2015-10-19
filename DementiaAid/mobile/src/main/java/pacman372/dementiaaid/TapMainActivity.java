@@ -70,7 +70,7 @@ public class TapMainActivity extends ActivityGroup {
         intentNew.putExtra("y1",latestY);
         intentNew.putExtra("radius1",latestRadius);
 
-        m.addTab(m.newTabSpec("tab1").setIndicator("Map").setContent(intentNew));
+        m.addTab(m.newTabSpec("tab1").setIndicator("Track Patient").setContent(intentNew));
         m.addTab(m.newTabSpec("tab2").setIndicator("Patient").setContent(R.id.LinearLayout02));
         m.addTab(m.newTabSpec("tab3").setIndicator("Carer").setContent(new Intent(this, CarerDetails.class)));
 
