@@ -8,3 +8,5 @@ DementiaAid/.idea/gradle.xml
 DementiaAid/.idea/gradle.xml
 DementiaAid/wear/wear.iml
 DementiaAid/wear/wear.iml
+*.xml
+*.iml
