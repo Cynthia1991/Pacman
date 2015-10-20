@@ -33,6 +33,7 @@ public class FenceView{
     protected PolygonalFence pFence;
     public static final LatLng DEFAULT_CAMERA = new LatLng(-27.4667, 153.0333);
     private final static String baseURL="http://pacmandementiaaid.azurewebsites.net/";
+
     int carerID = 8; //TODO: Get from wherever this is stored after login
     int patientID = 1; //TODO: Get from wherever this is stored after login
 
@@ -47,7 +48,11 @@ public class FenceView{
         service = retrofit.create(IDementiaAidService.class);
         mode = MODE.Circular;
         this.caller = caller;
-
+        SharedPreferences userDetails = caller.getSharedPreferences(caller.getString(R.string.sharedPreferences), 0);
+        String cIDString = userDetails.getString("userID","-1");
+        carerID = Integer.parseInt(cIDString);
+        String pIDString = userDetails.getString("patientID", "-1");
+        patientID = Integer.parseInt(pIDString);
         //contextOfApplication = getApplicationContext();
     }
     public FenceView(){
