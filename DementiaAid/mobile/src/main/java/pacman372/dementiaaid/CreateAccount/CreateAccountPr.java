@@ -72,7 +72,7 @@ public class CreateAccountPr
         //String StoreSuccess= createAccount.makeRequest(url,new_username,password_confirm);
 
 
-       new  CreateAccount().execute(url, new_username, new_password, device_id);
+      // new  CreateAccount().execute(url, new_username, new_password, device_id);
        // Pushbots.sharedInstance().register();
 
         //Log.d("push_id", Pushbots.sharedInstance().regID());
