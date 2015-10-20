@@ -50,13 +50,7 @@ public class TapMainActivity extends ActivityGroup {
         //m.setup();
 
         LayoutInflater i=LayoutInflater.from(this);
-        //i.inflate(R.layout.tab1, m.getTabContentView());
         i.inflate(R.layout.tab2, m.getTabContentView());
-        //i.inflate(R.layout.tab3, m.getTabContentView());//dynamic XML，no need for Activity
-
-
-
-
         Intent intent =getIntent();
 
         double x=0,y=0;
@@ -80,67 +74,6 @@ public class TapMainActivity extends ActivityGroup {
 
     }
 
-
-
-
-
-
-
-  /*  private void receiveData(){
-
-        Intent intent =getIntent();
-        double x=0,y=0;
-        int radius=0;
-        double latestX=intent.getDoubleExtra("x",x);
-        double latestY=intent.getDoubleExtra("y",y);
-        int latestRadius=intent.getIntExtra("radius", radius);
-
-        Intent intentNew=new Intent(this, Tab1ShowMapActivity.class);
-        intentNew.putExtra("x1",latestX);
-        intentNew.putExtra("y1",latestY);
-        intentNew.putExtra("radius1",latestRadius);
-
-
-    }*/
-
-    /*public void creatNewPatient(){
-
-        try {
-            mClient = new MobileServiceClient(
-                    "https://pacmanandroid.azure-mobile.net/",
-                    "mpVjGDJAoCHcrHsuWkxJGTvjwBDZMk90",
-                    this
-            );
-            Patient patient = new Patient();
-            patient.setName("Cynthia_P");
-            patient.setPhone("0424112714");
-            alertDialog = new AlertDialog.Builder(this);
-            mClient.getTable(Patient.class).insert(patient, new TableOperationCallback<Patient>() {
-                public void onCompleted(Patient entity, Exception exception, ServiceFilterResponse response) {
-                    if (exception == null) {
-                        // Insert succeeded
-
-                        alertDialog.setTitle("success...");
-                        alertDialog.setMessage("Insert succeeded!");
-                        alertDialog.show();
-
-                    } else {
-                        // Insert failed
-                        alertDialog.setTitle("Failed...");
-                        alertDialog.setMessage("Insert failed!");
-                        alertDialog.show();
-
-                    }
-                }
-            });
-        }catch (MalformedURLException e) {
-
-            //createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-        } catch (Exception e){
-            //createAndShowDialog(e, "Error");
-        }
-
-    }*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -168,7 +101,6 @@ public class TapMainActivity extends ActivityGroup {
         //EditText editText = (EditText) findViewById(R.id.edit_message);
         String message = "123";
         intent.putExtra(EXTRA_MESSAGE, message);
-        //startActivity(intent);
         startActivityForResult(intent, 1);
     }
 

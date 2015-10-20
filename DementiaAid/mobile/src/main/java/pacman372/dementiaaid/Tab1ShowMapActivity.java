@@ -47,39 +47,23 @@ public class Tab1ShowMapActivity extends FragmentActivity {
         setContentView(R.layout.activity_tab1_show_map);
         setUpMapIfNeeded();
         setCurrentFence();
-        //viewModel = new FenceView();
-        //setUpMapIfNeeded();
 
-        locationViewModel = new FenceView();
+
+
+        //locationViewModel = new FenceView();
+        //Get the patient's last location by using the location getter.
         locationGetter = new LocationGetter(this);
-
         currentLocation = new LatLng(locationGetter.coordinates_x,locationGetter.coordinates_y);
-//        //1.Set mode of fence view.
-//        locationViewModel.SetMode(FenceView.MODE.Circular);
-//        if(currentLocation!= null){
-//            //2.Set center of fence view.
-//            locationViewModel.mapClicked(currentLocation);
-//            //3.Set radius of fence view.
-//            locationViewModel.radiusChanged(0);
-//            //4.Configure map by viewModel
-//            locationViewModel.configureMap(mMap);
-//        }
+        //Display the last location on the map view
         Marker myPatients = mMap.addMarker(new MarkerOptions().position(currentLocation)
                 .icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-//        MarkerOptions markerOptions = new MarkerOptions().position(currentLocation);
-//        if (markerOptions != null) {
-//            mMap.addMarker(markerOptions);
-//        }
-
-
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //setUpMapIfNeeded();
     }
 
     private void setCurrentFence(){
@@ -134,7 +118,7 @@ public class Tab1ShowMapActivity extends FragmentActivity {
 
     }
     private void setPolygonalFenceView() {
-
+        //1.Set mode of fence view.
         viewModel.SetMode(FenceView.MODE.Polygonal);
         if(pFence!= null){
 
@@ -144,10 +128,7 @@ public class Tab1ShowMapActivity extends FragmentActivity {
                 viewModel.mapClicked(ll);
 
             }
-
-            //3.Set radius of fence view.
-            //viewModel.radiusChanged(cFence.getRadius());
-            //4.Configure map by viewModel
+            //3.Configure map by viewModel
             viewModel.configureMap(mMap);
         }
     }
