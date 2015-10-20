@@ -2,4 +2,4 @@
 
     <item android:id="@+id/menu_refresh" android:orderInCategory="101" android:showAsAction="always" android:title="@string/menu_refresh"></item>
 
-</menu><!-- From: file:/C:/Users/Geoffrey/Documents/IFN372/Pacman/pacmanAndroidNew/app/src/main/res/menu/activity_main.xml -->
+</menu><!-- From: file:/Users/fuqian/Desktop/Pacman/pacmanAndroidNew/app/src/main/res/menu/activity_main.xml -->
